@@ -1,0 +1,105 @@
+<div class="dt-main">
+  <app-sidebar></app-sidebar>
+  <div class="dt-content-wrapper">
+    <div class="dt-content">
+      <div class="col-md-12 spc-padding">
+        <h2 class="pageHeading">
+          <span class="main-chevron">
+            <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z"
+                fill="#0D1758"></path>
+            </svg>
+          </span>
+          Operating Hours
+        </h2>
+        <div class="bg-lightgrey ">
+          <div class="col-md-12  calendarOperatingHours">
+
+            <full-calendar *ngIf='currentBuilding' [options]='calendarOptions' class="show-content">
+            </full-calendar>
+
+            <!-- <a href="javascript: void(0);" (click)="openPopup()">Operating Hours</a> -->
+            <div class="modal operatingHourPop" id="operatingHourPop" tabindex="-1" role="dialog"
+                                                                                    [ngStyle]="{'display':displayStyle}">
+              <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+                  <div class="row" *ngIf="showMsg">
+                    <div class="col-xs-12">
+                      <p class="alert alert-success">
+                        <strong>{{msg}}</strong>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="modal-header">
+                    <h4 class="modal-title">Operating Hours</h4>
+                    <button type="button" class="btn " (click)="closePopup()"> <img
+                                          src="assets/images/cancel.svg" alt="arrow" /> </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="modalheadingbox"></div>
+                    <div class="bg-lightgrey p-20">
+                      <div class="schedulebx">
+                        <h5><span [innerHTML]="setDateToPopup"></span></h5>
+                        <div class="facilitybx d-flex">
+                          <div class="col-md-4">
+                            <h6>Facility Opens</h6>
+                            <igx-time-picker  #timePicker [(ngModel)]="time1" mode="dialog"
+                                                                              [inputFormat]="format" [itemsDelta]="{hours:1,minutes:10,seconds:30}"
+                                                                              (ngModelChange)="startTimechange($event)" [disabled]="isChecked">
+                            </igx-time-picker>
+                          </div>
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <h6>Facility Closes</h6>
+                            <igx-time-picker  #timePicker [(ngModel)]="time2" mode="dialog"
+                                                                              [inputFormat]="format" [itemsDelta]="{hours:1,minutes:10,seconds:30}"
+                                                                              (ngModelChange)="endTimechange($event)" [disabled]="isChecked">
+                            </igx-time-picker>
+                          </div>
+                        </div>
+                        <div class="facilitybx checkrw">
+                          <div class="form-group">
+                            <input type="checkbox" name="closeCheck" ngDefaultControl
+                                                   id="close" [checked]="isChecked"
+                                                   (change)="changed($event)" />
+                            <label for="close" class="check-red"> Close all day</label>
+                          </div>
+                          <div class="form-group">
+                            <input  type="checkbox" name="repeatCheck" ngDefaultControl id="repeat"
+                                                                                        [checked]="isRepeatChecked"
+                                                                                        (change)="repeatChanged($event)" />
+                            <label for="repeat" class="check-green"> Repeat</label>
+                            <div ngbDropdown class="d-inline-block">
+                              <div id="dropdownBasic1" ngbDropdownToggle [ngClass]="{'disableDiv': !isRepeatChecked}">
+                                <svg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M7 8.6665L14 1.6665L12.355 0.0215042L7 5.36484L1.645 0.0215033L1.0888e-06 1.6665L7 8.6665Z" fill="#7F7F7F" />
+                                </svg>
+                              </div>
+                              <!-- This bit is causing issues... Mostly in console errors. Doesn't seem to affect functionality -->
+                              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" [(ngModel)]="days_of_week">
+                                <button class="dropdown-item" *ngFor="let repeat of repeatList; let i = index"
+                                        (click)="selectRepeatOption(i)" [ngClass]="{'active': i === days_of_week}">
+                                  {{repeat}}
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-button-apply">
+                      <button type="button" class="btn btn-primary button-apply" (click)="handleAccept()">Apply</button>
+                      <button type="button" class="btn btn-warning button-apply" (click)="deleteEvent(selectedDate)">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

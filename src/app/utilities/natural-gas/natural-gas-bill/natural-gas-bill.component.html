@@ -1,0 +1,983 @@
+<div class="dt-main">
+  <app-sidebar></app-sidebar>
+  <div class="dt-content-wrapper">
+    <div class="dt-content">
+      <div class="col-md-8  past-bills-cont-ls">
+        <h2 class="pageHeading">
+          <span class="main-chevron">
+            <a routerLink="/utilities">
+              <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z" fill="#0D1758"></path>
+              </svg>
+            </a>
+          </span>Natural Gas
+        </h2>
+        <div class="past-bills-cont-ls-tab-data">
+          <div *ngIf="render_flag">
+            <div class="tab-handler-year-month">
+              <div class="tab-handler-cont">
+                <div class="tab-handler-top nav nav-pills">
+                  <a id="yearDocument" (click)="toggleModal1();" href="#1b" data-toggle="tab" class="tab-handler-top-btn ">Year</a>
+                  <a id="monthDocument" (click)="toggleModal2();" href="#2b" data-toggle="tab" class="tab-handler-top-btn  tab-handler-active">Month</a>
+                </div>
+                <div id="yearCalender" class="tab-handler-bottom year-calender-data">
+                  <button class="tab-handler-btm-ls-arw" (click)="reduceSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M6.02551 1.77377L5.20968 0.962524L0.676758 5.50002L5.21426 10.0375L6.02551 9.22627L2.29926 5.50002L6.02551 1.77377Z" fill="white" />
+                    </svg>
+                  </button>
+                  <p id="currentYear">{{set_fetch_month_year}}</p>
+                  <button class="tab-handler-btm-rs-arw" (click)="increaseSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M0.974491 9.22623L1.79032 10.0375L6.32324 5.49998L1.78574 0.962477L0.974492 1.77373L4.70074 5.49998L0.974491 9.22623Z" fill="white" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="monthCalender" class="tab-handler-bottom month-calender-data" style="display: none;">
+                  <button id="monthLeft"  class="tab-handler-btm-ls-arw" (click)="reducemonthSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M6.02551 1.77377L5.20968 0.962524L0.676758 5.50002L5.21426 10.0375L6.02551 9.22627L2.29926 5.50002L6.02551 1.77377Z" fill="white" />
+                    </svg>
+                  </button>
+                  <p id="monthfetchValue">Jan </p>
+                  <p>,</p>
+                  <p id="monthYearfetchValue">{{set_fetch_month_year}}</p>
+                  <button id="monthRight" class="tab-handler-btm-rs-arw" (click)="increasemonthSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M0.974491 9.22623L1.79032 10.0375L6.32324 5.49998L1.78574 0.962477L0.974492 1.77373L4.70074 5.49998L0.974491 9.22623Z" fill="white" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content clearfix">
+              <div id="1b" class="col-md-12 p-20 custom-border month-data tab-pane active">
+                <div class="past-bills-cont-ls-top-month">
+                  <div class="p-b-ls-top-col1 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar">$</span>{{currentBill.total_cost}}
+                      <span class="prc-point-value"> {{currentBillDecimal}}</span>
+                    </p>
+                    <p class="prc-sub-des">costs</p>
+                  </div>
+                  <div class="p-b-ls-top-col2 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar"></span>{{currentBill.total_usage}}
+                      <span class="prc-point-value">{{currentBillusageDecimal}}</span>
+                    </p>
+                    <p class="prc-sub-des">usage (kJ)</p>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+                <div class="past-bills-cont-ls-middle">
+                  <div class="ls-graph-cont">
+                    <ul class="ls-graph-cont-ul">
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="janGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.January}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="febGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.February}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">F</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="marGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.March}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">M</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="aprGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.April}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">A</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="mayGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.May}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">M</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="junGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.June}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="julGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.July}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="augGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.August}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">A</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="sepGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.September}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">S</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="octGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.October}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">O</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="novGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.November}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">N</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="decGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.December}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">D</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="past-bills-cont-ls-btm col-md-12">
+                  <div class="past-bills-cont-ls-btm-ls col-md-4 custom-border">
+                    <p class="top-title">Compare</p>
+                    <div class="cols-btm-data">
+                      <div class="col-btm-data-ls">
+                        <div class="col-btm-data-ls-img">
+                        <img src="/assets/images/clock-ic.png" alt="clock-img" class="img-fluid"/>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                          <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                        </svg>
+                        <p>post-bills</p>
+                      </div>
+                      <div class="col-btm-data-rs">
+                        <div class="col-btm-data-rs-img">
+                        <img src="/assets/images/office.jpg" alt="clock-img" class="img-fluid"/>
+                      </div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                        <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                      </svg>
+                        <p>other facilities</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-mid col-md-4 custom-border">
+                    <p class="top-title"> Breakdown by Area</p>
+                    <div class="breakdownby-area-data">
+                      <div class="breakdownby-area-data-top">
+                        <div class="breakdownby-area-data-ls">
+                          <p class="breakdownby-area-num"><span class="prc-dollar">$</span><span id="customPrice"  >{{year_price_breakdown_ft}}</span><span  id="customdecimalPrice"  class="prc-up">{{year_price_breakdown_ft_decimal}}</span></p>
+                        </div>
+                        <div class="breakdownby-area-data-rs">
+                          <p class="breakdownby-area-num" ><span id="updateAreaValue" > {{year_breakdown_ft}}</span><span id="decimalBreakdown" class="prc-up">{{year_breakdown_ft_decimal}}</span><span class="prc-kwh">kJ</span></p>
+                        </div>
+                      </div>
+                      <div class="breakdownby-area-data-bottom">
+                        <div class="form-check">
+                          <input class="form-check-input"  type="radio" (click)="leftToggle();" name="perft2" id="perft2" checked>
+                          <label class="form-check-label" for="perft2">
+                            per ft2
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio"  (click)="rightToggle();" name="perm2" id="perm2" >
+                          <label class="form-check-label" for="perm2">
+                           per m2
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-rs col-md-3 custom-border">
+                    <p class="top-title">Carbon</p>
+                    <div class="carbon-data">
+                      <div class="carbon-data-top">
+                        <p class="breakdownby-area-num">{{carbon_consumption_data}}</p>
+                      </div>
+                      <div class="carbon-data-btm">
+                        <p>tons/CO2 </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <div  id="2b" class="col-md-12 p-20 custom-border year-data tab-pane">
+                  <div class="past-bills-cont-ls-top-year">
+                    <div class="year-graph col-md-9">
+                      <div class="past-bills-cont-ls-middle">
+                        <div class="ls-graph-cont">
+                          <ul class="ls-graph-cont-ul">
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.January}"></div>
+                                <div id="January" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">J</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.February}"></div>
+                                <div id="February" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">F</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.March}"></div>
+                                <div id="March" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">M</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.April}"></div>
+                                <div id="April" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">A</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.May}"></div>
+                                <div id="May" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">M</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.June}"></div>
+                                <div id="June" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">J</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.July}"></div>
+                                <div id="July" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">J</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.August}"></div>
+                                <div id="August" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">A</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.September}"></div>
+                                <div id="September" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">S</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.October}"></div>
+                                <div id="October" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">O</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.November}"></div>
+                                <div id="November"  class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">N</p>
+                            </li>
+                            <li class="ls-graph-cont-itm">
+                              <div class="ls-graph-bar" style="height: 8.056vw;">
+                                <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.December}"></div>
+                                <div id="December" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                              </div>
+                              <p class="ls-graph-itm-txt">D</p>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="p-b-ls-top-col3 col-md-3"></div>
+                  </div>
+                  <div class="col-md-12 cutm-progress-bar">
+                    <div class="progress">
+                      <div class="progress-bar ng-bar" id="setUsageBar" role="progressbar" aria-label="Basic example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-center text-center">
+                    <div class="p-b-ls-top-col1 col-md-4">
+                      <p class="prc-data">
+                        <span class="prc-dollar">$</span>{{currentMonthBill.total_cost}}
+                        <span class="prc-point-value">{{currentmonthBillDecimal}}</span>
+                      </p>
+                      <p class="prc-sub-des">costs</p>
+                    </div>
+                    <div class="p-b-ls-top-col2 col-md-4">
+                      <p class="prc-data">
+                        <span class="prc-dollar"></span>{{currentMonthBill.total_usage }}
+                        <span class="prc-point-value ">{{currentmonthBillusageDecimal}}</span>
+                        <span class="prc-kwh">kJ</span>
+                      </p>
+                      <p class="prc-sub-des">usage</p>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm col-md-12">
+                    <div class="past-bills-cont-ls-btm-ls col-md-4 custom-border">
+                      <p class="top-title">Compare</p>
+                      <div class="cols-btm-data">
+                        <div class="col-btm-data-ls">
+                          <div class="col-btm-data-ls-img">
+                          <img src="/assets/images/clock-ic.png" alt="clock-img" class="img-fluid"/>
+                          </div>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                            <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                          </svg>
+                          <p>post-bills</p>
+                        </div>
+                        <div class="col-btm-data-rs">
+                          <div class="col-btm-data-rs-img">
+                          <img src="/assets/images/office.jpg" alt="clock-img" class="img-fluid"/>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                          <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                        </svg>
+                          <p>other facilities</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="past-bills-cont-ls-btm-mid col-md-4 custom-border">
+                      <p class="top-title"> Breakdown by Area</p>
+                      <div class="breakdownby-area-data">
+                        <div class="breakdownby-area-data-top">
+                          <div class="breakdownby-area-data-ls">
+                            <p class="breakdownby-area-num"><span class="prc-dollar">$</span><span id="updatecustomPrice"  >{{price_breakdown_ft}}</span><span  id="updatecustomdecimalPrice"  class="prc-up">{{price_breakdown_ft_decimal}}</span></p>
+                          </div>
+                          <div class="breakdownby-area-data-rs">
+                            <p class="breakdownby-area-num"> <span id="updateAreamonthValue" >{{breakdown_ft}} </span>   <span  id="decimalmonthBreakdown" class="prc-up">{{breakdown_ft_decimal}}</span><span class="prc-kwh">kJ</span></p>
+                          </div>
+                        </div>
+                        <div class="breakdownby-area-data-bottom">
+                          <div class="form-check">
+                            <input class="form-check-input"  type="radio" (click)="leftMonthToggle();" name="perftmonth2" id="perftmonth2" checked>
+                            <label class="form-check-label" for="perftmonth2">
+                              per ft2
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio"  (click)="rightMonthToggle();" name="permmonth2" id="permmonth2" >
+                            <label class="form-check-label" for="permmonth2">
+                             per m2
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="past-bills-cont-ls-btm-rs col-md-3 custom-border">
+                      <p class="top-title">Carbon</p>
+                      <div class="carbon-data">
+                        <div class="carbon-data-top">
+                          <p class="breakdownby-area-num">{{carbon_consumption_monthly_data}}</p>
+                        </div>
+                        <div class="carbon-data-btm">
+                          <p>tons/CO2 </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+          </div>
+          <div *ngIf="!render_flag">
+            <div class="tab-handler-year-month">
+              <div class="tab-handler-cont">
+                <div class="tab-handler-top nav nav-pills">
+                  <a id="yearDocument" (click)="toggleModal1();" href="#1b" data-toggle="tab" class="tab-handler-top-btn ">Year</a>
+                  <a id="monthDocument" (click)="toggleModal2();" href="#2b" data-toggle="tab" class="tab-handler-top-btn  tab-handler-active">Month</a>
+                </div>
+                <div id="yearCalender" class="tab-handler-bottom year-calender-data">
+                  <button class="tab-handler-btm-ls-arw" (click)="reduceSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M6.02551 1.77377L5.20968 0.962524L0.676758 5.50002L5.21426 10.0375L6.02551 9.22627L2.29926 5.50002L6.02551 1.77377Z" fill="white" />
+                    </svg>
+                  </button>
+                  <p id="currentYear">{{set_fetch_month_year}}</p>
+                  <button class="tab-handler-btm-rs-arw" (click)="increaseSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M0.974491 9.22623L1.79032 10.0375L6.32324 5.49998L1.78574 0.962477L0.974492 1.77373L4.70074 5.49998L0.974491 9.22623Z" fill="white" />
+                    </svg>
+                  </button>
+                </div>
+                <div id="monthCalender" class="tab-handler-bottom month-calender-data" style="display: none;">
+                  <button class="tab-handler-btm-ls-arw" (click)="reducemonthSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M6.02551 1.77377L5.20968 0.962524L0.676758 5.50002L5.21426 10.0375L6.02551 9.22627L2.29926 5.50002L6.02551 1.77377Z" fill="white" />
+                    </svg>
+                  </button>
+                  <p id="monthfetchValue">Jan </p>
+                  <p>,</p>
+                  <p id="monthYearfetchValue">{{set_fetch_month_year}}</p>
+                  <button class="tab-handler-btm-rs-arw" (click)="increasemonthSliderValue()" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                      <path d="M0.974491 9.22623L1.79032 10.0375L6.32324 5.49998L1.78574 0.962477L0.974492 1.77373L4.70074 5.49998L0.974491 9.22623Z" fill="white" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content clearfix">
+              <div id="1b" class="col-md-12 p-20 custom-border month-data tab-pane active">
+                <div class="past-bills-cont-ls-top-month">
+                  <div class="p-b-ls-top-col1 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar">$</span>
+                      <span class="prc-point-value"></span>
+                    </p>
+                    <p class="prc-sub-des">costs</p>
+                  </div>
+                  <div class="p-b-ls-top-col2 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar">$</span>
+                      <span class="prc-point-value"></span>
+                    </p>
+                    <p class="prc-sub-des">usage (kJ)</p>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+                <div class="past-bills-cont-ls-middle">
+                  <div class="ls-graph-cont">
+                    <ul class="ls-graph-cont-ul">
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="janGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.January}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="febGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.February}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">F</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="marGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.March}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">M</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="aprGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.April}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">A</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="mayGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.May}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">M</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="junGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.June}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="julGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.July}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">J</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="augGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.August}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">A</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="sepGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.September}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">S</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="octGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.October}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">O</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="novGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.November}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">N</p>
+                      </li>
+                      <li class="ls-graph-cont-itm">
+                        <div class="ls-graph-bar" style="height: 28vh;">
+                          <div id="decGraph" class="ls-ng-graph-bar-color" [ngStyle]="{'height': year_single_months.December}"></div>
+                        </div>
+                        <p class="ls-graph-itm-txt">D</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="past-bills-cont-ls-btm col-md-12">
+                  <div class="past-bills-cont-ls-btm-ls col-md-4 custom-border">
+                    <p class="top-title">Compare</p>
+                    <div class="cols-btm-data">
+                      <div class="col-btm-data-ls">
+                        <div class="col-btm-data-ls-img">
+                        <img src="/assets/images/clock-ic.png" alt="clock-img" class="img-fluid"/>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                          <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                        </svg>
+                        <p>post-bills</p>
+                      </div>
+                      <div class="col-btm-data-rs">
+                        <div class="col-btm-data-rs-img">
+                        <img src="/assets/images/office.jpg" alt="clock-img" class="img-fluid"/>
+                      </div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                        <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                      </svg>
+                        <p>other facilities</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-mid col-md-4 custom-border">
+                    <p class="top-title"> Breakdown by Area</p>
+                    <div class="breakdownby-area-data">
+                      <div class="breakdownby-area-data-top">
+                        <div class="breakdownby-area-data-ls">
+                          <p class="breakdownby-area-num"><span class="prc-down">$</span>-<span class="prc-up">-</span></p>
+                        </div>
+                        <div class="breakdownby-area-data-rs">
+                          <p class="breakdownby-area-num">10<span class="prc-up">.55</span><span class="prc-kwh">kJ</span></p>
+                        </div>
+                      </div>
+                      <div class="breakdownby-area-data-bottom">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="perft2" id="perft2">
+                          <label class="form-check-label" for="perft2">
+                            per ft2
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="perm2" id="perm2" >
+                          <label class="form-check-label" for="perm2">
+                           per m2
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-rs col-md-3 custom-border">
+                    <p class="top-title">Carbon</p>
+                    <div class="carbon-data">
+                      <div class="carbon-data-top">
+                        <p class="breakdownby-area-num"></p>
+                      </div>
+                      <div class="carbon-data-btm">
+                        <p>tons/CO2 </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!render_flag_month" id="2b" class="col-md-12 p-20 custom-border year-data tab-pane">
+                <div class="past-bills-cont-ls-top-year">
+                  <div class="year-graph col-md-9">
+                    <div class="past-bills-cont-ls-middle">
+                      <div class="ls-graph-cont">
+                        <ul class="ls-graph-cont-ul">
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.January}"></div>
+                              <div id="January" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">J</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.February}"></div>
+                              <div id="February" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">F</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.March}"></div>
+                              <div id="March" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">M</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.April}"></div>
+                              <div id="April" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">A</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.May}"></div>
+                              <div id="May" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">M</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.June}"></div>
+                              <div id="June" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">J</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div  class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.July}"></div>
+                              <div id="July" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">J</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.August}"></div>
+                              <div id="August" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">A</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.September}"></div>
+                              <div id="September" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">S</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.October}"></div>
+                              <div id="October" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">O</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.November}"></div>
+                              <div id="November"  class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">N</p>
+                          </li>
+                          <li class="ls-graph-cont-itm">
+                            <div class="ls-graph-bar" style="height: 8.056vw;">
+                              <div class="ls-graph-bar-color-bg" [ngStyle]="{'height': month_single_graph.December}"></div>
+                              <div id="December" class="ls-ng-graph-bar-color" style="height: 0%"></div>
+                            </div>
+                            <p class="ls-graph-itm-txt">D</p>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-b-ls-top-col3 col-md-3"></div>
+                </div>
+                <div class="col-md-12 cutm-progress-bar">
+                  <div class="progress">
+                    <div class="progress-bar ng-bar" id="setUsageBar" role="progressbar" aria-label="Basic example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-center text-center">
+                  <div class="p-b-ls-top-col1 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar">$</span>
+                      <span class="prc-point-value"></span>
+                    </p>
+                    <p class="prc-sub-des">costs</p>
+                  </div>
+                  <div class="p-b-ls-top-col2 col-md-4">
+                    <p class="prc-data">
+                      <span class="prc-dollar">$</span>
+                      <span class="prc-point-value "></span>
+                    </p>
+                    <p class="prc-sub-des">usage (kJ)</p>
+                  </div>
+                </div>
+                <div class="past-bills-cont-ls-btm col-md-12">
+                  <div class="past-bills-cont-ls-btm-ls col-md-4 custom-border">
+                    <p class="top-title">Compare</p>
+                    <div class="cols-btm-data">
+                      <div class="col-btm-data-ls">
+                        <div class="col-btm-data-ls-img">
+                        <img src="/assets/images/clock-ic.png" alt="clock-img" class="img-fluid"/>
+                        </div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                          <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                        </svg>
+                        <p>post-bills</p>
+                      </div>
+                      <div class="col-btm-data-rs">
+                        <div class="col-btm-data-rs-img">
+                        <img src="/assets/images/office.jpg" alt="clock-img" class="img-fluid"/>
+                      </div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                        <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+                      </svg>
+                        <p>other facilities</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-mid col-md-4 custom-border">
+                    <p class="top-title"> Breakdown by Area</p>
+                    <div class="breakdownby-area-data">
+                      <div class="breakdownby-area-data-top">
+                        <div class="breakdownby-area-data-ls">
+                          <p class="breakdownby-area-num"><span >$</span>1<span class="prc-up">.45</span></p>
+                        </div>
+                        <div class="breakdownby-area-data-rs">
+                          <p class="breakdownby-area-num">10<span class="prc-up">.55</span><span class="prc-kwh">kJ</span></p>
+                        </div>
+                      </div>
+                      <div class="breakdownby-area-data-bottom">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="perft2" id="perft2">
+                          <label class="form-check-label" for="perft2">
+                            per ft2
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="perm2" id="perm2" >
+                          <label class="form-check-label" for="perm2">
+                           per m2
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="past-bills-cont-ls-btm-rs col-md-3 custom-border">
+                    <p class="top-title">Carbon</p>
+                    <div class="carbon-data">
+                      <div class="carbon-data-top">
+                        <p class="breakdownby-area-num"></p>
+                      </div>
+                      <div class="carbon-data-btm">
+                        <p>tons/CO2 </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4  past-bills-cont-rs">
+        <p class="bill-break-title">Bill <br />Breakdown </p>
+        <div class="bill-break-data">
+          <div class="bill-break-data-graph col-md-12 custom-border">
+            <div class="bill-break-data-graph-top">
+            <p>by fees</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+              <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+            </svg>
+            </div>
+            <div class="bill-break-data-graph-mid">
+              <svg xmlns="http://www.w3.org/2000/svg" width="244" height="98" viewBox="0 0 244 98" fill="none">
+                <rect width="7.64775" height="97.2357" rx="3.82388" fill="#3649A8"/>
+                <rect x="21.4868" y="7.28357" width="7.64775" height="89.9521" rx="3.82388" fill="#3649A8"/>
+                <rect x="42.9727" y="19.3015" width="7.64775" height="77.9342" rx="3.82388" fill="#3649A8"/>
+                <rect x="64.4595" y="41.8806" width="7.64775" height="55.3552" rx="3.82388" fill="#3649A8"/>
+                <rect x="85.9468" y="64.8237" width="7.64775" height="32.4119" rx="3.82388" fill="#3649A8"/>
+                <rect x="107.433" y="68.1014" width="7.64775" height="29.1343" rx="3.82388" fill="#3649A8"/>
+                <rect x="128.919" y="79.0267" width="7.64775" height="18.2089" rx="3.82388" fill="#3649A8"/>
+                <rect x="150.406" y="68.1014" width="7.64775" height="29.1343" rx="3.82388" fill="#3649A8"/>
+                <rect x="171.892" y="56.0835" width="7.64775" height="41.1522" rx="3.82388" fill="#3649A8"/>
+                <rect x="193.379" y="41.8806" width="7.64775" height="55.3552" rx="3.82388" fill="#3649A8"/>
+                <rect x="214.865" y="15.6596" width="7.64775" height="81.576" rx="3.82388" fill="#3649A8"/>
+                <rect x="236.352" width="7.64775" height="97.2357" rx="3.82388" fill="#3649A8"/>
+                <path d="M0 3.82442C0 1.71239 1.71214 0.000244141 3.82417 0.000244141C5.93621 0.000244141 7.64835 1.71239 7.64835 3.82442V7.64859H0V3.82442Z" fill="#FEC754"/>
+                <path d="M21.4868 11.1079C21.4868 8.99589 23.199 7.28375 25.311 7.28375C27.423 7.28375 29.1352 8.99589 29.1352 11.1079V15.6605H21.4868V11.1079Z" fill="#FEC754"/>
+                <path d="M42.9727 23.1259C42.9727 21.0138 44.6848 19.3017 46.7968 19.3017C48.9089 19.3017 50.621 21.0138 50.621 23.1259V28.4069H42.9727V23.1259Z" fill="#FEC754"/>
+                <path d="M64.4595 45.7049C64.4595 43.5929 66.1716 41.8807 68.2836 41.8807C70.3957 41.8807 72.1078 43.5929 72.1078 45.7049V50.6217H64.4595V45.7049Z" fill="#FEC754"/>
+                <path d="M85.9468 68.6481C85.9468 66.5361 87.6589 64.824 89.771 64.824C91.883 64.824 93.5951 66.5361 93.5951 68.6481V69.5587H85.9468V68.6481Z" fill="#FEC754"/>
+                <path d="M107.433 71.9257C107.433 69.8137 109.145 68.1016 111.257 68.1016C113.369 68.1016 115.081 69.8137 115.081 71.9257V72.8363H107.433V71.9257Z" fill="#FEC754"/>
+                <path d="M128.919 82.6689C128.919 80.6575 130.55 79.0269 132.562 79.0269H132.926C134.937 79.0269 136.568 80.6575 136.568 82.6689H128.919Z" fill="#FEC754"/>
+                <path d="M150.406 71.9257C150.406 69.8137 152.118 68.1016 154.23 68.1016C156.342 68.1016 158.054 69.8137 158.054 71.9257V72.8363H150.406V71.9257Z" fill="#FEC754"/>
+                <path d="M171.892 59.9079C171.892 57.7959 173.604 56.0837 175.716 56.0837C177.828 56.0837 179.54 57.7959 179.54 59.9079V60.8184H171.892V59.9079Z" fill="#FEC754"/>
+                <path d="M193.379 45.7049C193.379 43.5929 195.091 41.8807 197.203 41.8807C199.315 41.8807 201.027 43.5929 201.027 45.7049V48.4365H193.379V45.7049Z" fill="#FEC754"/>
+                <path d="M214.865 19.484C214.865 17.372 216.577 15.6599 218.689 15.6599C220.801 15.6599 222.514 17.372 222.514 19.484V24.765H214.865V19.484Z" fill="#FEC754"/>
+                <path d="M236.352 3.82442C236.352 1.71239 238.064 0.000244141 240.176 0.000244141C242.288 0.000244141 244 1.71238 244 3.82442V7.28438H236.352V3.82442Z" fill="#FEC754"/>
+                <rect y="7.64801" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect y="19.3017" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect y="30.9554" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="21.4868" y="15.6599" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="21.4868" y="27.3137" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="21.4868" y="38.9673" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="42.9727" y="28.4062" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="42.9727" y="40.0599" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="42.9727" y="51.7136" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="64.4595" y="50.621" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="64.4595" y="62.2747" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="64.4595" y="73.9286" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="85.9468" y="69.5583" width="7.64835" height="6.55573" fill="#EE8F37"/>
+                <rect x="85.9468" y="76.1135" width="7.64835" height="6.55573" fill="#3BCDEE"/>
+                <rect x="85.9468" y="82.6688" width="7.64835" height="6.55573" fill="#EE5937"/>
+                <rect x="107.433" y="72.8359" width="7.64835" height="6.19152" fill="#EE8F37"/>
+                <rect x="107.433" y="79.0269" width="7.64835" height="6.19152" fill="#3BCDEE"/>
+                <rect x="107.433" y="85.2181" width="7.64835" height="6.19152" fill="#EE5937"/>
+                <rect x="128.919" y="82.6688" width="7.64835" height="3.27786" fill="#EE8F37"/>
+                <rect x="128.919" y="85.9464" width="7.64835" height="3.27786" fill="#3BCDEE"/>
+                <rect x="128.919" y="89.224" width="7.64835" height="3.27786" fill="#EE5937"/>
+                <rect x="150.406" y="72.8359" width="7.64835" height="6.19152" fill="#EE8F37"/>
+                <rect x="150.406" y="79.0269" width="7.64835" height="6.19152" fill="#3BCDEE"/>
+                <rect x="150.406" y="85.2181" width="7.64835" height="6.19152" fill="#EE5937"/>
+                <rect x="171.892" y="60.8181" width="7.64835" height="4.00628" fill="#EE8F37"/>
+                <rect x="171.892" y="64.824" width="7.64835" height="4.00628" fill="#3BCDEE"/>
+                <rect x="171.892" y="68.83" width="7.64835" height="4.00628" fill="#EE5937"/>
+                <rect x="193.379" y="48.436" width="7.64835" height="6.55573" fill="#EE8F37"/>
+                <rect x="193.379" y="54.9912" width="7.64835" height="6.55573" fill="#3BCDEE"/>
+                <rect x="193.379" y="61.5464" width="7.64835" height="6.55573" fill="#EE5937"/>
+                <rect x="214.865" y="24.7644" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="214.865" y="36.4181" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="214.865" y="48.0718" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="236.352" y="7.28375" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="236.352" y="18.9375" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="236.352" y="30.5912" width="7.64835" height="11.6546" fill="#EE5937"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="246" height="10" viewBox="0 0 246 10" fill="none">
+                  <path d="M4.72447 8.056C4.42047 8.056 4.1298 7.99467 3.85247 7.872C3.57514 7.744 3.3458 7.56267 3.16447 7.328L3.81247 6.528C4.06314 6.84267 4.3458 7 4.66047 7C5.1138 7 5.34047 6.67733 5.34047 6.032V2.32H6.46847V6.024C6.46847 7.37867 5.88714 8.056 4.72447 8.056Z" fill="#7F7F7F"/>
+                  <path d="M24.2723 8V2.32H28.0403V3.32H25.3843V4.84H27.6003V5.848H25.3843V8H24.2723Z" fill="#7F7F7F"/>
+                  <path d="M45.1201 8V2.32H46.2481L47.9921 5.552H48.0081L49.7521 2.32H50.8801V8H49.7601V4.488H49.7441L48.3601 6.928H47.6321L46.2561 4.48H46.2401V8H45.1201Z" fill="#7F7F7F"/>
+                  <path d="M67.3507 8L69.4547 2.32H70.5427L72.6547 8H71.4787L71.0867 6.864H68.9107L68.5267 8H67.3507ZM69.2307 5.904H70.7667L70.0067 3.68H69.9907L69.2307 5.904Z" fill="#7F7F7F"/>
+                  <path d="M88.1201 8V2.32H89.2481L90.9921 5.552H91.0081L92.7521 2.32H93.8801V8H92.7601V4.488H92.7441L91.3601 6.928H90.6321L89.2561 4.48H89.2401V8H88.1201Z" fill="#7F7F7F"/>
+                  <path d="M111.724 8.056C111.42 8.056 111.13 7.99467 110.852 7.872C110.575 7.744 110.346 7.56267 110.164 7.328L110.812 6.528C111.063 6.84267 111.346 7 111.66 7C112.114 7 112.34 6.67733 112.34 6.032V2.32H113.468V6.024C113.468 7.37867 112.887 8.056 111.724 8.056Z" fill="#7F7F7F"/>
+                  <path d="M133.724 8.056C133.42 8.056 133.13 7.99467 132.852 7.872C132.575 7.744 132.346 7.56267 132.164 7.328L132.812 6.528C133.063 6.84267 133.346 7 133.66 7C134.114 7 134.34 6.67733 134.34 6.032V2.32H135.468V6.024C135.468 7.37867 134.887 8.056 133.724 8.056Z" fill="#7F7F7F"/>
+                  <path d="M153.351 8L155.455 2.32H156.543L158.655 8H157.479L157.087 6.864H154.911L154.527 8H153.351ZM155.231 5.904H156.767L156.007 3.68H155.991L155.231 5.904Z" fill="#7F7F7F"/>
+                  <path d="M177 8.072C176.205 8.072 175.515 7.77067 174.928 7.168L175.608 6.336C175.811 6.56533 176.037 6.74133 176.288 6.864C176.544 6.98667 176.789 7.048 177.024 7.048C177.285 7.048 177.485 6.99467 177.624 6.888C177.763 6.776 177.832 6.62933 177.832 6.448C177.832 6.25067 177.76 6.09867 177.616 5.992C177.477 5.88533 177.221 5.768 176.848 5.64C176.645 5.57067 176.472 5.50667 176.328 5.448C176.189 5.384 176.037 5.30133 175.872 5.2C175.712 5.09867 175.581 4.992 175.48 4.88C175.379 4.76267 175.293 4.61867 175.224 4.448C175.16 4.272 175.128 4.08 175.128 3.872C175.128 3.41867 175.304 3.03733 175.656 2.728C176.008 2.41333 176.44 2.25333 176.952 2.248C177.645 2.248 178.285 2.488 178.872 2.968L178.216 3.816C177.757 3.44267 177.344 3.256 176.976 3.256C176.773 3.256 176.608 3.30667 176.48 3.408C176.357 3.50933 176.293 3.648 176.288 3.824C176.288 3.98933 176.355 4.12 176.488 4.216C176.627 4.312 176.88 4.432 177.248 4.576C177.835 4.80533 178.219 4.98133 178.4 5.104C178.811 5.38133 179.016 5.784 179.016 6.312C179.016 6.70667 178.909 7.04267 178.696 7.32C178.483 7.592 178.229 7.78667 177.936 7.904C177.643 8.016 177.331 8.072 177 8.072Z" fill="#7F7F7F"/>
+                  <path d="M198.003 8.072C197.149 8.072 196.453 7.8 195.915 7.256C195.376 6.70667 195.107 6.008 195.107 5.16C195.107 4.312 195.376 3.616 195.915 3.072C196.453 2.52267 197.149 2.248 198.003 2.248C198.84 2.248 199.531 2.52 200.075 3.064C200.619 3.60267 200.891 4.30133 200.891 5.16C200.891 6.01867 200.619 6.72 200.075 7.264C199.531 7.80267 198.84 8.072 198.003 8.072ZM198.003 7.016C198.493 7.016 198.901 6.84 199.227 6.488C199.552 6.136 199.715 5.69333 199.715 5.16C199.715 4.62667 199.552 4.184 199.227 3.832C198.901 3.48 198.493 3.304 198.003 3.304C197.496 3.304 197.08 3.48267 196.755 3.84C196.435 4.19733 196.275 4.63733 196.275 5.16C196.275 5.68267 196.435 6.12267 196.755 6.48C197.08 6.83733 197.496 7.016 198.003 7.016Z" fill="#7F7F7F"/>
+                  <path d="M217.604 8V2.32H218.708L221.26 6.152H221.276V2.32H222.388V8H221.26L218.74 4.248H218.724V8H217.604Z" fill="#7F7F7F"/>
+                  <path d="M238.706 8V2.32H240.586C241.477 2.32 242.191 2.584 242.73 3.112C243.269 3.63467 243.538 4.32 243.538 5.168C243.538 6.016 243.274 6.70133 242.746 7.224C242.223 7.74133 241.511 8 240.61 8H238.706ZM239.818 7H240.538C241.082 7 241.522 6.82667 241.858 6.48C242.194 6.13333 242.362 5.696 242.362 5.168C242.362 4.63467 242.197 4.19467 241.866 3.848C241.535 3.496 241.114 3.32 240.602 3.32H239.818V7Z" fill="#7F7F7F"/>
+                  </svg>
+            </div>
+            <div class="bill-break-data-graph-btm">
+              <p>Breakdown your  utility bills by fees</p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                <path d="M8 6L2 -2.62268e-07L0.59 1.41L5.17 6L0.59 10.59L2 12L8 6Z" fill="#0D1758"/>
+              </svg>
+            </div>
+          </div>
+          <div class="bill-break-data-graph col-md-12 custom-border">
+            <div class="bill-break-data-graph-top">
+            <p>by inventory</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+              <path d="M6.66675 5.5L1.91675 0.75L0.800497 1.86625L4.42633 5.5L0.800497 9.13375L1.91675 10.25L6.66675 5.5Z" fill="#7F7F7F"/>
+            </svg>
+            </div>
+            <div class="bill-break-data-graph-mid">
+              <svg xmlns="http://www.w3.org/2000/svg" width="244" height="98" viewBox="0 0 244 98" fill="none">
+                <rect width="7.64775" height="97.2357" rx="3.82388" fill="#3649A8"/>
+                <rect x="21.4868" y="7.28357" width="7.64775" height="89.9521" rx="3.82388" fill="#3649A8"/>
+                <rect x="42.9727" y="19.3015" width="7.64775" height="77.9342" rx="3.82388" fill="#3649A8"/>
+                <rect x="64.4595" y="41.8806" width="7.64775" height="55.3552" rx="3.82388" fill="#3649A8"/>
+                <rect x="85.9468" y="64.8237" width="7.64775" height="32.4119" rx="3.82388" fill="#3649A8"/>
+                <rect x="107.433" y="68.1014" width="7.64775" height="29.1343" rx="3.82388" fill="#3649A8"/>
+                <rect x="128.919" y="79.0267" width="7.64775" height="18.2089" rx="3.82388" fill="#3649A8"/>
+                <rect x="150.406" y="68.1014" width="7.64775" height="29.1343" rx="3.82388" fill="#3649A8"/>
+                <rect x="171.892" y="56.0835" width="7.64775" height="41.1522" rx="3.82388" fill="#3649A8"/>
+                <rect x="193.379" y="41.8806" width="7.64775" height="55.3552" rx="3.82388" fill="#3649A8"/>
+                <rect x="214.865" y="15.6596" width="7.64775" height="81.576" rx="3.82388" fill="#3649A8"/>
+                <rect x="236.352" width="7.64775" height="97.2357" rx="3.82388" fill="#3649A8"/>
+                <path d="M0 3.82442C0 1.71239 1.71214 0.000244141 3.82417 0.000244141C5.93621 0.000244141 7.64835 1.71239 7.64835 3.82442V7.64859H0V3.82442Z" fill="#FEC754"/>
+                <path d="M21.4868 11.1079C21.4868 8.99589 23.199 7.28375 25.311 7.28375C27.423 7.28375 29.1352 8.99589 29.1352 11.1079V15.6605H21.4868V11.1079Z" fill="#FEC754"/>
+                <path d="M42.9727 23.1259C42.9727 21.0138 44.6848 19.3017 46.7968 19.3017C48.9089 19.3017 50.621 21.0138 50.621 23.1259V28.4069H42.9727V23.1259Z" fill="#FEC754"/>
+                <path d="M64.4595 45.7049C64.4595 43.5929 66.1716 41.8807 68.2836 41.8807C70.3957 41.8807 72.1078 43.5929 72.1078 45.7049V50.6217H64.4595V45.7049Z" fill="#FEC754"/>
+                <path d="M85.9468 68.6481C85.9468 66.5361 87.6589 64.824 89.771 64.824C91.883 64.824 93.5951 66.5361 93.5951 68.6481V69.5587H85.9468V68.6481Z" fill="#FEC754"/>
+                <path d="M107.433 71.9257C107.433 69.8137 109.145 68.1016 111.257 68.1016C113.369 68.1016 115.081 69.8137 115.081 71.9257V72.8363H107.433V71.9257Z" fill="#FEC754"/>
+                <path d="M128.919 82.6689C128.919 80.6575 130.55 79.0269 132.562 79.0269H132.926C134.937 79.0269 136.568 80.6575 136.568 82.6689H128.919Z" fill="#FEC754"/>
+                <path d="M150.406 71.9257C150.406 69.8137 152.118 68.1016 154.23 68.1016C156.342 68.1016 158.054 69.8137 158.054 71.9257V72.8363H150.406V71.9257Z" fill="#FEC754"/>
+                <path d="M171.892 59.9079C171.892 57.7959 173.604 56.0837 175.716 56.0837C177.828 56.0837 179.54 57.7959 179.54 59.9079V60.8184H171.892V59.9079Z" fill="#FEC754"/>
+                <path d="M193.379 45.7049C193.379 43.5929 195.091 41.8807 197.203 41.8807C199.315 41.8807 201.027 43.5929 201.027 45.7049V48.4365H193.379V45.7049Z" fill="#FEC754"/>
+                <path d="M214.865 19.484C214.865 17.372 216.577 15.6599 218.689 15.6599C220.801 15.6599 222.514 17.372 222.514 19.484V24.765H214.865V19.484Z" fill="#FEC754"/>
+                <path d="M236.352 3.82442C236.352 1.71239 238.064 0.000244141 240.176 0.000244141C242.288 0.000244141 244 1.71238 244 3.82442V7.28438H236.352V3.82442Z" fill="#FEC754"/>
+                <rect y="7.64801" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect y="19.3017" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect y="30.9554" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="21.4868" y="15.6599" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="21.4868" y="27.3137" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="21.4868" y="38.9673" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="42.9727" y="28.4062" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="42.9727" y="40.0599" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="42.9727" y="51.7136" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="64.4595" y="50.621" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="64.4595" y="62.2747" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="64.4595" y="73.9286" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="85.9468" y="69.5583" width="7.64835" height="6.55573" fill="#EE8F37"/>
+                <rect x="85.9468" y="76.1135" width="7.64835" height="6.55573" fill="#3BCDEE"/>
+                <rect x="85.9468" y="82.6688" width="7.64835" height="6.55573" fill="#EE5937"/>
+                <rect x="107.433" y="72.8359" width="7.64835" height="6.19152" fill="#EE8F37"/>
+                <rect x="107.433" y="79.0269" width="7.64835" height="6.19152" fill="#3BCDEE"/>
+                <rect x="107.433" y="85.2181" width="7.64835" height="6.19152" fill="#EE5937"/>
+                <rect x="128.919" y="82.6688" width="7.64835" height="3.27786" fill="#EE8F37"/>
+                <rect x="128.919" y="85.9464" width="7.64835" height="3.27786" fill="#3BCDEE"/>
+                <rect x="128.919" y="89.224" width="7.64835" height="3.27786" fill="#EE5937"/>
+                <rect x="150.406" y="72.8359" width="7.64835" height="6.19152" fill="#EE8F37"/>
+                <rect x="150.406" y="79.0269" width="7.64835" height="6.19152" fill="#3BCDEE"/>
+                <rect x="150.406" y="85.2181" width="7.64835" height="6.19152" fill="#EE5937"/>
+                <rect x="171.892" y="60.8181" width="7.64835" height="4.00628" fill="#EE8F37"/>
+                <rect x="171.892" y="64.824" width="7.64835" height="4.00628" fill="#3BCDEE"/>
+                <rect x="171.892" y="68.83" width="7.64835" height="4.00628" fill="#EE5937"/>
+                <rect x="193.379" y="48.436" width="7.64835" height="6.55573" fill="#EE8F37"/>
+                <rect x="193.379" y="54.9912" width="7.64835" height="6.55573" fill="#3BCDEE"/>
+                <rect x="193.379" y="61.5464" width="7.64835" height="6.55573" fill="#EE5937"/>
+                <rect x="214.865" y="24.7644" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="214.865" y="36.4181" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="214.865" y="48.0718" width="7.64835" height="11.6546" fill="#EE5937"/>
+                <rect x="236.352" y="7.28375" width="7.64835" height="11.6546" fill="#EE8F37"/>
+                <rect x="236.352" y="18.9375" width="7.64835" height="11.6546" fill="#3BCDEE"/>
+                <rect x="236.352" y="30.5912" width="7.64835" height="11.6546" fill="#EE5937"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="246" height="10" viewBox="0 0 246 10" fill="none">
+                  <path d="M4.72447 8.056C4.42047 8.056 4.1298 7.99467 3.85247 7.872C3.57514 7.744 3.3458 7.56267 3.16447 7.328L3.81247 6.528C4.06314 6.84267 4.3458 7 4.66047 7C5.1138 7 5.34047 6.67733 5.34047 6.032V2.32H6.46847V6.024C6.46847 7.37867 5.88714 8.056 4.72447 8.056Z" fill="#7F7F7F"/>
+                  <path d="M24.2723 8V2.32H28.0403V3.32H25.3843V4.84H27.6003V5.848H25.3843V8H24.2723Z" fill="#7F7F7F"/>
+                  <path d="M45.1201 8V2.32H46.2481L47.9921 5.552H48.0081L49.7521 2.32H50.8801V8H49.7601V4.488H49.7441L48.3601 6.928H47.6321L46.2561 4.48H46.2401V8H45.1201Z" fill="#7F7F7F"/>
+                  <path d="M67.3507 8L69.4547 2.32H70.5427L72.6547 8H71.4787L71.0867 6.864H68.9107L68.5267 8H67.3507ZM69.2307 5.904H70.7667L70.0067 3.68H69.9907L69.2307 5.904Z" fill="#7F7F7F"/>
+                  <path d="M88.1201 8V2.32H89.2481L90.9921 5.552H91.0081L92.7521 2.32H93.8801V8H92.7601V4.488H92.7441L91.3601 6.928H90.6321L89.2561 4.48H89.2401V8H88.1201Z" fill="#7F7F7F"/>
+                  <path d="M111.724 8.056C111.42 8.056 111.13 7.99467 110.852 7.872C110.575 7.744 110.346 7.56267 110.164 7.328L110.812 6.528C111.063 6.84267 111.346 7 111.66 7C112.114 7 112.34 6.67733 112.34 6.032V2.32H113.468V6.024C113.468 7.37867 112.887 8.056 111.724 8.056Z" fill="#7F7F7F"/>
+                  <path d="M133.724 8.056C133.42 8.056 133.13 7.99467 132.852 7.872C132.575 7.744 132.346 7.56267 132.164 7.328L132.812 6.528C133.063 6.84267 133.346 7 133.66 7C134.114 7 134.34 6.67733 134.34 6.032V2.32H135.468V6.024C135.468 7.37867 134.887 8.056 133.724 8.056Z" fill="#7F7F7F"/>
+                  <path d="M153.351 8L155.455 2.32H156.543L158.655 8H157.479L157.087 6.864H154.911L154.527 8H153.351ZM155.231 5.904H156.767L156.007 3.68H155.991L155.231 5.904Z" fill="#7F7F7F"/>
+                  <path d="M177 8.072C176.205 8.072 175.515 7.77067 174.928 7.168L175.608 6.336C175.811 6.56533 176.037 6.74133 176.288 6.864C176.544 6.98667 176.789 7.048 177.024 7.048C177.285 7.048 177.485 6.99467 177.624 6.888C177.763 6.776 177.832 6.62933 177.832 6.448C177.832 6.25067 177.76 6.09867 177.616 5.992C177.477 5.88533 177.221 5.768 176.848 5.64C176.645 5.57067 176.472 5.50667 176.328 5.448C176.189 5.384 176.037 5.30133 175.872 5.2C175.712 5.09867 175.581 4.992 175.48 4.88C175.379 4.76267 175.293 4.61867 175.224 4.448C175.16 4.272 175.128 4.08 175.128 3.872C175.128 3.41867 175.304 3.03733 175.656 2.728C176.008 2.41333 176.44 2.25333 176.952 2.248C177.645 2.248 178.285 2.488 178.872 2.968L178.216 3.816C177.757 3.44267 177.344 3.256 176.976 3.256C176.773 3.256 176.608 3.30667 176.48 3.408C176.357 3.50933 176.293 3.648 176.288 3.824C176.288 3.98933 176.355 4.12 176.488 4.216C176.627 4.312 176.88 4.432 177.248 4.576C177.835 4.80533 178.219 4.98133 178.4 5.104C178.811 5.38133 179.016 5.784 179.016 6.312C179.016 6.70667 178.909 7.04267 178.696 7.32C178.483 7.592 178.229 7.78667 177.936 7.904C177.643 8.016 177.331 8.072 177 8.072Z" fill="#7F7F7F"/>
+                  <path d="M198.003 8.072C197.149 8.072 196.453 7.8 195.915 7.256C195.376 6.70667 195.107 6.008 195.107 5.16C195.107 4.312 195.376 3.616 195.915 3.072C196.453 2.52267 197.149 2.248 198.003 2.248C198.84 2.248 199.531 2.52 200.075 3.064C200.619 3.60267 200.891 4.30133 200.891 5.16C200.891 6.01867 200.619 6.72 200.075 7.264C199.531 7.80267 198.84 8.072 198.003 8.072ZM198.003 7.016C198.493 7.016 198.901 6.84 199.227 6.488C199.552 6.136 199.715 5.69333 199.715 5.16C199.715 4.62667 199.552 4.184 199.227 3.832C198.901 3.48 198.493 3.304 198.003 3.304C197.496 3.304 197.08 3.48267 196.755 3.84C196.435 4.19733 196.275 4.63733 196.275 5.16C196.275 5.68267 196.435 6.12267 196.755 6.48C197.08 6.83733 197.496 7.016 198.003 7.016Z" fill="#7F7F7F"/>
+                  <path d="M217.604 8V2.32H218.708L221.26 6.152H221.276V2.32H222.388V8H221.26L218.74 4.248H218.724V8H217.604Z" fill="#7F7F7F"/>
+                  <path d="M238.706 8V2.32H240.586C241.477 2.32 242.191 2.584 242.73 3.112C243.269 3.63467 243.538 4.32 243.538 5.168C243.538 6.016 243.274 6.70133 242.746 7.224C242.223 7.74133 241.511 8 240.61 8H238.706ZM239.818 7H240.538C241.082 7 241.522 6.82667 241.858 6.48C242.194 6.13333 242.362 5.696 242.362 5.168C242.362 4.63467 242.197 4.19467 241.866 3.848C241.535 3.496 241.114 3.32 240.602 3.32H239.818V7Z" fill="#7F7F7F"/>
+                  </svg>
+            </div>
+            <div class="bill-break-data-graph-btm">
+              <p>Breakdown your utility bills by inventory</p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none">
+                <path d="M8 6L2 -2.62268e-07L0.59 1.41L5.17 6L0.59 10.59L2 12L8 6Z" fill="#0D1758"/>
+              </svg>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

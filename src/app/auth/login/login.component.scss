@@ -1,0 +1,81 @@
+.login-container {
+    border-radius: 18px;
+    margin: 0 auto;
+    width: 490px;
+    background: white;
+    height: 616px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label, button {
+        display: block;
+    }
+
+    .login-logo {
+        margin-top: 68px;
+        margin-bottom: 50px;
+    }
+
+    form input {
+        margin-bottom: 32px;
+        width: 402px;
+        height: 48px;
+        border-radius: 2px;
+    }
+
+    form label {
+        font-size: 14px;
+        margin-bottom: 14px;
+        color: #2F2F2F;
+    }
+
+    form button {
+        width: 320px;
+        background-color: #293F8A;
+        color: white;
+        height: 48px;
+        border-radius: 24px;
+        margin: 0 auto;
+        margin-top: 8px;
+        margin-bottom: 28px;
+    }
+
+    input[type="email"] {
+        background: url(/assets/images/person-icon.png) no-repeat scroll 12px 12px;
+        padding-left: 42px;
+    }
+    input[type="password"] {
+        background: url(/assets/images/lock-icon.png) no-repeat scroll 12px 12px;
+        padding-left: 42px;
+    }
+}
+
+.forgotten-password-container {
+    display: flex;
+    width: 402px;
+    margin: 0 auto;
+    justify-content: end;
+
+    a {
+        font-size: 12px;
+        color: #293F8A;
+    }
+}
+
+input#password {
+    margin-bottom: 8px;
+
+}
+
+.error-message {
+    height: 24px;
+    font-size: 12px;
+    width: 402px;
+    color: red;
+
+    #email-error-message {
+        margin-left: 4px;
+    }
+
+}

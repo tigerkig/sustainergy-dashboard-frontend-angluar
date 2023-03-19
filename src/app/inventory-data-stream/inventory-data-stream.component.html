@@ -1,0 +1,68 @@
+<div class="dt-main">
+	<app-sidebar></app-sidebar>
+	<div class="dt-content-wrapper">
+		<div class="dt-content">
+			<div class="col-md-12 spc-padding">
+				<h2 class="pageHeading">
+				   <span class="main-chevron">
+					  <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+						 <path d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z" fill="#0D1758"></path>
+					  </svg>
+				   </span>
+					Live Usage
+				</h2>
+
+				<div class="card ">
+					<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs inventorytbs">
+						<li [ngbNavItem]="1">
+							<a ngbNavLink>Inventory</a>
+							<ng-template ngbNavContent>
+								<div class="circles">
+									<div class="circle red-bg md"> <a  href="#">HVAC</a></div>
+									<div class="circle blue-bg lg"><a  href="#">Lighting</a></div>
+									<div class="circle skyblue-bg xl"><a  href="#">Pumps & Motors</a></div>
+									<div class="circle orange-bg sm"><a  href="#">Plug Load</a></div>
+									<div class="circle yellow-bg xs"><a  href="#">DHW</a></div>
+								</div>
+
+
+							</ng-template>
+						</li>
+						<li [ngbNavItem]="2">
+							<a ngbNavLink>Panels</a>
+							<ng-template ngbNavContent>
+								rt
+							</ng-template>
+						</li>
+						<li [ngbNavItem]="3">
+							<a ngbNavLink>Circuits</a>
+							<ng-template ngbNavContent>
+								567
+							</ng-template>
+						</li>
+					</ul>
+					<div [ngbNavOutlet]="nav" class="mt-2"></div>
+				</div>
+				<div class="graph_rw border-top mb-4">
+					<a href="#" class="arrow-down">
+						<svg width="45" height="23" viewBox="0 0 45 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M45 0L45 11C45 17.6274 39.6274 23 33 23L12 23C5.37258 23 -7.70519e-07 17.6274 -4.80825e-07 11L0 -1.96701e-06L45 0Z" fill="#3649A8"/>
+							<g clip-path="url(#clip0_2672_3881)">
+								<path d="M22 14.6667L16.5 9.16675L17.7925 7.87425L22 12.0726L26.2075 7.87425L27.5 9.16675L22 14.6667Z" fill="white"/>
+							</g>
+							<defs>
+								<clipPath id="clip0_2672_3881">
+									<rect width="22" height="22" fill="white" transform="matrix(1 8.74228e-08 8.74228e-08 -1 11 22)"/>
+								</clipPath>
+							</defs>
+						</svg></a>
+					<div class="row">
+						<div class="col-md-8">
+							<img src="assets/images/graph.png" alt="graph" class="img-fluid"/>
+						</div></div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

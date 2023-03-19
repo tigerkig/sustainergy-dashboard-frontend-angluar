@@ -1,0 +1,28 @@
+<div class="dt-main">
+	<app-sidebar></app-sidebar>
+	<div class="dt-content-wrapper">
+		<div class="dt-content">
+			<div class="col-md-12 spc-padding">
+				<h2 class="pageHeading">Switch Facilities</h2>
+				<div class="bg-lightgrey p-20 switchfac">
+
+					<div class="scroll">
+						<div class="row" >
+
+							<div class="col-md-3 mb-4"  *ngFor="let building of buildings; let i = index">
+								<div class="card border-radius5 p-3">
+									<div class="cardupper">
+										<img src="{{building.facility.image}}" alt="{{building.facility.type}}"/>
+									</div>
+									<div class="cardfoot border-top">
+										<a (click)="onClick(building)">{{building.description}}<img src="assets/images/expand_right.svg" alt="arrow"/></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	

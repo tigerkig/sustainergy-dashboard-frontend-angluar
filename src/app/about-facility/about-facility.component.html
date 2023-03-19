@@ -1,0 +1,176 @@
+<div class="dt-main">
+  <app-sidebar></app-sidebar>
+  <div class="dt-content-wrapper">
+    <div class="dt-content">
+      <div class="col-md-12 spc-padding">
+        <h2 class="pageHeading">
+
+          About Facility
+        </h2>
+        <div class="bg-lightgrey overflow-y-scroll">
+          <h5 class="smheading">facility name</h5>
+          <h3 class="subheading">{{currentBuilding.description}}</h3>
+          <div class="row">
+            <div class="col-md-6 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class=" d-flex align-items-center">
+                  <div class="col-md-6 pd-img"><img src="{{currentBuilding.facility.image}}" alt="{{currentBuilding.facility.type}}" class="img-fluid"/></div>
+                  <div class="col-md-6">
+                    <div class="CardDesc build">
+                      <ul>
+                        <li>
+                          <h5>Building Type</h5>
+                          <h3>{{currentBuilding.facility.type}}</h3>
+                        </li>
+                        <li>
+                          <h5>Year Built <span class="floatRight">age</span></h5>
+                          <h3>{{currentBuilding.year_built || "Unknown"}}<span class="floatRight">{{currentBuilding.age || "???"}}</span></h3>
+                        </li>
+
+                        <li>
+                          <h5>Size</h5>
+                          <h3>{{currentBuilding.squarefootage || "Unknown"}} <sub>ft<sup>2</sup></sub></h3>
+                        </li>
+
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="#">General Overview <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>  
+              </div>
+
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class=" d-flex align-items-center">
+                  <div class="col-md-6 pd-img text-center"><img src="assets/images/map.png" alt="map" class="img-fluid"/><h3>Zone 7A</h3></div>
+                  <div class="col-md-6">
+                    <div class="CardDesc">
+                      <ul>
+                        <li>
+                          <h5>address</h5>
+													<h3>{{currentBuilding.address_line_1 || "Unknown"}}<br>{{currentBuilding.address_line_2}}</h3>
+                        </li>
+                        <li>
+                          <h5>city</h5>
+                          <h3>{{currentBuilding.city}}, {{currentBuilding.province}}</h3>
+                        </li>
+
+                        <li>
+                          <h5>weather station</h5>
+                          <h3>Edmonton Calder</h3>
+                        </li>
+
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="#">Location Info       <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>  
+              </div>
+
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class=" d-flex align-items-center">
+                  <div class="col-md-12">
+                    <h4>Typical Hours</h4>
+                    <div class="HourChart">
+                      <div class="column">
+                        <p class="title">S</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">M</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">T</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">W</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">T</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">F</p>
+                      </div>
+                      <div class="column">
+                        <p class="title">S</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="cardfoot border-top">
+                  <a routerLink="/operatinghours" href="#">Operating Hours       <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>  
+              </div>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class=" d-flex align-items-center">
+                  <div class="col-md-12">
+                    <div class="compare-section">
+                      <p>Compare your<br> facility to <br>others</p>
+                      <div class="span-group">
+                        <span class="first"></span>
+                        <div class="comparestripe"></div>
+                        <span class="second"></span>
+                        <span class="third"></span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="#">Compare      <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class=" d-flex align-items-center">
+                  <div class="col-md-12">
+                    <div class="weather-div">
+                      <div class="label">
+                        <span></span>
+                        <p>live</p>
+                      </div>
+                      <div class="weather-spc">
+                        <div class="weather_col"></div>
+                        <div class="weatherTxt">-3<sup>0</sup><span>c</span></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="#">Weather       <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

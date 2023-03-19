@@ -1,0 +1,496 @@
+<div class="dt-main">
+  <app-sidebar></app-sidebar>
+  <div class="dt-content-wrapper overflow-y-scroll">
+    <div class="dt-content">
+      <div class="col-md-9 spc-padding midbxCol">
+        <h2 class="pageHeading">
+          <span class="main-chevron">
+            <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z"
+                fill="#0D1758"></path>
+            </svg>
+          </span> Live Usage
+        </h2>
+        <div class="card bggrey tabs-container live-usage-table-list-cont">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>Inventory</a>
+              <ng-template ngbNavContent>
+                <div class="panelScroll inventory_col">
+                  <div class="panelHeading headerClass">
+                    <div class="panelRunning"> Running </div>
+                    <div class="panelPercentage"> Percentage </div>
+                    <div class="panelEnergy">
+                      <label>
+                        <input type="radio" name="energy" checked /> Energy </label>
+                    </div>
+                    <div class="panelCost">
+                      <label>
+                        <input type="radio" name="energy" /> Cost </label>
+                    </div>
+                  </div>
+                  <div *ngFor="let circuit of circuitCategoryMain; let i = index">
+                    <div class="panelRow panelHeading" [ngStyle]="{'color': '#1fab3d'}">
+                      <div class="panelRunning">
+                        <div class="colorbx">
+                          <span class="design" [ngStyle]="{'background': circuit.colour}"></span>
+                        </div>
+                        <div class="categoryheading">{{circuit.name}}</div>
+                        <div class="traingle" id="arrow" [attr.aria-expanded]="isInventryCollapsed[i]"
+                          (click)="collapse.toggle()" aria-controls="collapseExample"></div>
+                        <div class="info">
+                          <svg fill="#B0BFE5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px"
+                            height="18px">
+                            <path
+                              d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z">
+                            </path>
+                          </svg>
+                        </div>
+                      </div>
+                      <!-- <div class="panelPercentage"><div class="percentagebx" style="width:105px"></div>
+                                                22.4%
+                                            </div> -->
+                      <div class="panelEnergy"></div>
+                      <div class="panelCost"></div>
+                    </div>
+                    <div #collapse="ngbCollapse" [(ngbCollapse)]="isInventryCollapsed[i]" class="panelRow panelShow">
+                      <div class="panelList" *ngFor="let subCategory of circuit.circuit_set">
+                        <div class="panelName">
+                          <span class=" circle" [ngStyle]="{'background': circuit.colour}"></span>
+                          {{subCategory.circuit_name}}
+                        </div>
+                        <div class="panelPercentage">
+                          <div class="percentagebx" [ngStyle]="{width: panelsIsConnected ? '200px' : '0px'}"></div>
+                        </div>
+                        <div class="panelEnergy"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="panelRow panelHeading skyblue-text"><div class="panelRunning"><div class="greybx"><span class="skyblue-bg"></span></div><div class="heading">Pumps/Motors</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage"><div class="percentagebx" style="width:89px"></div>
+                                            18.9%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div><div class="panelRow panelHeading red-text"><div class="panelRunning"><div class="greybx"><span class="red-bg"></span></div><div class="heading">DHW</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage"><div class="percentagebx" style="width:75px"></div>
+                                            15.1%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div><div class="panelRow panelHeading black-text"><div class="panelRunning"><div class="greybx"><span class="black-bg"></span></div><div class="heading">HVAC</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage"><div class="percentagebx" style="width:65px"></div>
+                                            12.7%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div> -->
+                  <!-- <div class="panelRow panelHeading orange-text"><div class="panelRunning"><div class="greybx"><span class="orange-bg"></span></div><div class="heading">Plug-Load</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage"><div class="percentagebx" style="width:15px"></div>
+                                            3.4%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div><div class="panelRow panelHeading yellow-text"><div class="panelRunning"><div class="greybx"><span class="yellow-bg"></span></div><div class="heading">Other</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage"><div class="percentagebx" style="width:8px"></div>
+                                            1.4%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div><div class="panelRow panelHeading darkgrey-text"><div class="panelRunning"><div class="greybx"><span class="darkgrey-bg"></span></div><div class="heading">Spare/Inactive</div><div class="traingle"></div><div class="info"><svg fill="#B0BFE5"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 24 24" width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div></div><div class="panelPercentage disc"><div class="percentagebx" style="width:2px"></div>
+                                            0.0%
+                                        </div><div class="panelEnergy"></div><div class="panelCost"></div></div> -->
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Panels</a>
+              <ng-template ngbNavContent>
+                <div class="panelScroll">
+                  <div class="panelHeading headerClass">
+                    <div class="panelRunning"> Running </div>
+                    <div class="panelPercentage"> Percentage </div>
+                    <div class="panelEnergy">
+                      <label>
+                        <input type="radio" name="energy" checked /> Energy </label>
+                    </div>
+                    <div class="panelCost">
+                      <label>
+                        <input type="radio" name="energy" /> Cost </label>
+                    </div>
+                  </div>
+                  <div *ngFor="let panel of panels; let i = index">
+                    <div class="panelRow panelHeading customPanelRow">
+                      <div class="panelRunning">
+                        <!-- TODO: Add changes to handle deactivated panels when status added to db -->
+                        <div class="greybx">
+                          <span [ngClass]="panel.panelIsconnected ? 'green' : 'red'"></span>
+                        </div>
+                        <div class="heading">{{panel.panel_name}}</div>
+                        <div class="traingle" id="arrow" [attr.aria-expanded]="isPanelCollapsed[i]"
+                          (click)="collapse.toggle()" aria-controls="collapseExample"></div>
+                        <div class="info">
+                          <svg fill="#ccc" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px"
+                            height="18px">
+                            <path
+                              d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z">
+                            </path>
+                          </svg>
+                        </div>
+                        <a href="javascript: void(0);" aria-disabled="false" [attr.id]="panel.panel_name"
+                          *ngIf="userCheck" (click)="openReportModal(panel.panel_id, panel.panel_name)">
+                          <img src="assets/images/Vector.png" alt="arrow" />
+                        </a>
+
+                      </div>
+                      <!-- TODO: change based on connected status  -->
+                      <div class="panelIsconnectedSec" *ngIf="panel.panelIsconnected">
+                        <div class="custompanelIsconnectedCont">
+                          <div [ngClass]="'panelPercentage'">
+                            <!-- TODO: Need to calculate width based on %  -->
+                            <div>
+                              {{""}}
+                            </div>
+                            <div [ngClass]="'percentagebx'"
+                              [ngStyle]="{width: panel.panelTotalPower ? panel.panelTotalPower :'1px' }">
+                            </div>
+                          </div>
+                          <p class="percetangeTextcustom">{{panel.panelPercentage ? panel.panelPercentage : "0%"}}</p>
+                        </div>
+                        <div class="panelEnergy energyTextcustom">
+                          <p>
+                            {{panel.panel_power ? panel.panel_power + "/Watts": "0/Watts"}}
+                          </p>
+                        </div>
+                      </div>
+                      <div *ngIf="!panel.panelIsconnected" class="panelIsconnectedSec">
+
+                        <div [ngClass]="'panelPercentage disc custompanelIsconnectedCont'">
+                          <!-- TODO: Need to calculate width based on %  -->
+                          <div>
+                            {{panel.panelIsconnected ? "": "Disconnected"}}
+                          </div>
+
+                        </div>
+
+
+                      </div>
+
+
+
+
+                      <!-- <div class="panelCost">
+                        {{panel.panelIsconnected  ? panel.panel_power: ""}}
+                      </div> -->
+                    </div>
+                    <div #collapse="ngbCollapse" [(ngbCollapse)]="isPanelCollapsed[i]" class="panelRow panelShow">
+                      <div class="panelList panelList-cutom" *ngFor="let circuit of panel.panel_circuits">
+                        <div class="panelName" [ngStyle]="{'color' :circuit.circuit_disabled }">
+                          <span class=" circle" [ngStyle]="{'background': circuit.category_color}"></span>
+                          {{circuit.circuit_name}}
+                        </div>
+
+                        <div class="panelPercentage">
+                          <!-- This renders Bar -->
+                          <div *ngIf="circuit.disconnected">
+                          <div class="percentagebx-box-cont">
+                            <div class="percentagebx" [ngStyle]="{width: circuit.circuit_bar , 'background': circuit.circuit_disabled }">
+                            </div>
+                            <div class="percentagebx-box-cont-num " [ngStyle]="{'color' :circuit.circuit_disabled }">
+                              <p>{{circuit.circuit_percentage}}</p>
+                            </div>
+                          </div>
+                        </div>
+                          <!-- This renders Disconnected -->
+                          <div *ngIf="!circuit.disconnected">
+
+                          <div class="percentagebx-box-cont">
+                            <div class="percentagebx-box-cont-num-disconnect">
+                              <p>Disconnected</p>
+                            </div>
+                          </div>
+
+                          </div>
+
+                        </div>
+
+
+
+                          <div class="panelEnergy percentagebx-box-cont-watts"
+                            [ngStyle]="{'color' :circuit.circuit_disabled }">
+                            <p>{{circuit.circuit_power}}/watts</p>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink>Circuits</a>
+              <ng-template ngbNavContent>
+                <div class=" panelScroll">
+                  <div class="panelHeading headerClass">
+                    <div class="panelRunning"> Running </div>
+                    <div class="panelPercentage"> Percentage </div>
+                    <div class="panelEnergy">
+                      <label>
+                        <input type="radio" name="energy" checked /> Energy </label>
+                    </div>
+                    <div class="panelCost">
+                      <label>
+                        <input type="radio" name="energy" /> Cost </label>
+                    </div>
+                  </div>
+                  <div *ngFor="let circuit of circuitCategoryMain; let i = index">
+                    <div *ngFor="let sub_category of circuit.circuit_set">
+                      <div class="panelList ">
+                        <div class="panelName">
+                          <span class=" circle" [ngStyle]="{'background': circuit.colour}"></span>
+                          {{sub_category.circuit_name}}
+                        </div>
+                        <!-- <div class="panelPercentage"><div class="percentagebx" style="width:82px"></div>
+                                                    21%
+                                                </div> -->
+                        <div class="explore">Explore <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                              fill="white" />
+                          </svg>
+                        </div>
+                        <!-- <div class="panelEnergy">
+                                                    344/watts
+                                                </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="panelList "><div class="panelName"><span class=" circle orange-bg"></span> Water Softner / DHW
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:12px"></div>
+                                            3.1%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            74/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle orange-bg"></span> Office 1 Lighting
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:46px"></div>
+                                            6.78%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            234/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle skyblue-bg"></span> Office 2 Lighting
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:8px"></div>
+                                            2.7%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            54/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle blue-bg"></span> Smoke Detectors
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:20px"></div>
+                                            3.74%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            82/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle red-bg"></span> Exit Lights
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:5px"></div>
+                                            0.6%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            11/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle skyblue-bg"></span> Exit Lights
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:3px"></div>
+                                            0.4%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            9/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle blue-bg"></span> Furnace
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:11px"></div>
+                                            2.78%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            21/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle blue-bg"></span> Exit / Emer. Lights
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:5px"></div>
+                                            0.98%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            31/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList"><div class="panelName"><span class=" circle yellow-bg"></span> Hallway 1 Lighting
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:64px"></div>
+                                            9.23%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            151/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList panelgrey"><div class="panelName"><span class=" circle skyblue-bg"></span> Halway 2 Lighting
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:2px"></div>
+                                            0%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            0/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList panelgrey"><div class="panelName"><span class=" circle blue-bg"></span> Office 2 Plugs
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:2px"></div>
+                                            0%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            0/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList panelgrey"><div class="panelName"><span class=" circle orange-bg"></span> Washroom Dryer
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:2px"></div>
+                                            0%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            0/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList panelgrey"><div class="panelName"><span class=" circle blue-bg"></span> Baydoors - 1
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:2px"></div>
+                                            0%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            0/watts
+                                        </div></div> -->
+                  <!-- <div class="panelList panelgrey"><div class="panelName"><span class=" circle blue-bg"></span> Baydoors - 2
+                                        </div><div class="panelPercentage"><div class="percentagebx" style="width:2px"></div>
+                                            0%
+                                        </div><div class="explore">Explore
+                                            <svg width="5" height="9" viewBox="0 0 5 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"><path d="M0.433686 7.54865L1.10119 8.2124L4.80994 4.4999L1.09744 0.787404L0.433687 1.45115L3.48244 4.4999L0.433686 7.54865V7.54865Z"
+                                                      fill="white"/></svg></div><div class="panelEnergy">
+                                            0/watts
+                                        </div></div> -->
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div class="panelHeading panelfooter inventory_col">
+            <div class="panelTotal"> Total </div>
+            <div class="panelpercentagetotal">
+              <div class="percentagebx" [ngStyle]="{width: showTotal !=0 ? '138px' : '2px'}"> {{showTotal!=0 ? "100%":
+                "0%"}}</div>
+            </div>
+            <div class="panelEnergywatts"> {{showTotal}}/watts </div>
+          </div>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+        <div class="graphSection">
+          <img src="assets/images/graph.png" alt="graph" class="img-fluid">
+        </div>
+      </div>
+      <div class="col-md-3 sidebartab">
+        <div class="arrow-toggle">
+          <svg width="24" height="45" viewBox="0 0 24 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 0H12C18.6274 0 24 5.37258 24 12V33C24 39.6274 18.6274 45 12 45H1V0Z" fill="#3649A8" />
+            <g clip-path="url(#clip0_0_1)">
+              <path d="M16 22L10 16L8.59 17.41L13.17 22L8.59 26.59L10 28L16 22Z" fill="white" />
+            </g>
+            <defs>
+              <clipPath id="clip0_0_1">
+                <rect width="24" height="24" fill="white" transform="translate(24 10) rotate(90)" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div class="Bill-Breakdown">
+          <p class="billbreakdown-side">Load Breakdown</p>
+          <div class="byfees">
+            <div class="chartdv">
+              <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+                [responsive]="chartOptions.responsive" [legend]="chartOptions.legend"
+                [dataLabels]="chartOptions.dataLabels" [colors]="chartOptions.colors"> ></apx-chart>
+              <span class="chartper">100%</span>
+            </div>
+          </div>
+          <div class="sidetab">
+            <a href="#" class="sidetablink active">Category</a>
+            <a href="#" class="sidetablink">Panel</a>
+          </div>
+          <div class="greybx">
+            <h4>Categories</h4>
+            <div class="cat-opt-box">
+              <div *ngFor="let circuit of circuitCategoryPane; let i = index">
+                <div class="greybxWhite">
+                  <label class="cat-opt">
+                    <input type="checkbox" (change)="checkValue($event)" checked value={{circuit.name}}>
+                    <div class="d-flex">
+                      <div class="inner-cat-opts">
+                        <div class="check blue-text">
+                          <svg [ngStyle]="{'fill': circuit.colour}" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" width="24px" height="24px">
+                            <path
+                              d="M11,16.4l-4.7-4.7l1.4-1.4l3.3,3.3l8.4-8.4C17.5,3.3,14.9,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10 c0-1.9-0.5-3.6-1.4-5.1L11,16.4z">
+                            </path>
+                          </svg>
+                        </div>
+                        <div class="name" [ngStyle]="{'color': '#0D1758'}">
+                          {{circuit.name}}
+                          <svg [ngStyle]="{'fill': '#ccc'}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            width="18px" height="18px">
+                            <path
+                              d="M 12 2  C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z">
+                            </path>
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="percent" [ngStyle]="{'color': '#0D1758'}">43%</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="greybxWhite"><div class="d-flex"><div class="check blue-text"><svg fill="#ee5937"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="24px" height="24px"><path d="M11,16.4l-4.7-4.7l1.4-1.4l3.3,3.3l8.4-8.4C17.5,3.3,14.9,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10 c0-1.9-0.5-3.6-1.4-5.1L11,16.4z"></path></svg></div><div class="name">
+                                    HVAC
+                                    <svg fill="#B0BFE5"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div><div class="percent">21%</div></div></div><div class="greybxWhite"><div class="d-flex"><div class="check red-text"><svg fill="#3bcdee"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="24px" height="24px"><path d="M11,16.4l-4.7-4.7l1.4-1.4l3.3,3.3l8.4-8.4C17.5,3.3,14.9,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10 c0-1.9-0.5-3.6-1.4-5.1L11,16.4z"></path></svg></div><div class="name">
+                                    Pumps/Motors
+                                    <svg fill="#B0BFE5"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div><div class="percent">19%</div></div></div><div class="greybxWhite"><div class="d-flex"><div class="check sky-text"><svg fill="#fec754"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="24px" height="24px"><path d="M11,16.4l-4.7-4.7l1.4-1.4l3.3,3.3l8.4-8.4C17.5,3.3,14.9,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10 c0-1.9-0.5-3.6-1.4-5.1L11,16.4z"></path></svg></div><div class="name">
+                                    Plug Load
+                                    <svg fill="#B0BFE5"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div><div class="percent">11%</div></div></div><div class="greybxWhite"><div class="d-flex"><div class="check orange-text"><svg fill="#ee8f37"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="24px" height="24px"><path d="M11,16.4l-4.7-4.7l1.4-1.4l3.3,3.3l8.4-8.4C17.5,3.3,14.9,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10 c0-1.9-0.5-3.6-1.4-5.1L11,16.4z"></path></svg></div><div class="name">
+                                    DHW
+                                    <svg fill="#B0BFE5"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         width="18px" height="18px"><path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path></svg></div><div class="percent">6%</div></div></div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+# Node Image for docker on which code will execute
+image: node:latest
+
+
+# This is the stages / task to perfom in jobs
+stages:
+  - build
+  - deploy
+
+
+# Job One for making build
+build_main:
+  stage: build
+  script:
+    - npm install --legacy-peer-deps
+    - npm run build --configuration="production"
+  artifacts:
+    paths:
+      - dist
+  only: 
+      - main
+
+# Job Two for deploy build to S3
+deploy to s3:
+  stage: deploy
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
+  script:
+    - echo $AWS_S3_BUCKET
+    - aws --version
+    - aws s3 rm s3://$AWS_S3_BUCKET --recursive
+    - aws s3 cp dist s3://$AWS_S3_BUCKET --recursive
+    - aws cloudfront create-invalidation --distribution-id $AWS_CLOUDFRONT_DISTRIBUTION --paths "/*"
+  only: 
+      - main

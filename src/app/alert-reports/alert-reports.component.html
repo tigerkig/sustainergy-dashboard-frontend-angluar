@@ -1,0 +1,228 @@
+<div class="dt-main">
+  <app-sidebar></app-sidebar>
+  <div class="dt-content-wrapper">
+    <div class="dt-content">
+      <div class="col-md-12 spc-padding">
+        <h2 class="pageHeading">
+          <span class="main-chevron">
+            <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z" fill="#0D1758"></path>
+            </svg>
+          </span>
+          Alerts & Reports
+        </h2>
+        <div class="bg-lightgrey overflow-y-scroll">
+          <h3 class="subheading">Alerts</h3>
+          <div class="row">
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/onoffalert.png" alt="onoffalert"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >On/Off Alerts <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/consumption.png" alt="consumption"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >Consumption <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/equipment.png" alt="equipment"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >Equipment <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-3 mb-4">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/connectivity.png" alt="connectivity"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >Connectivity <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-12 mt-2">
+              <h3 class="subheading">Reports</h3>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/exportdata.png" alt="exportdata"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >Export Data <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/schedule.png" alt="Schedules"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" (click)="openScheduleModal()">Schedules <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+
+                  <div class="modal" id="schedule" tabindex="-1" role="dialog" *ngIf="modal == 'schedule'" style="display: block;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Schedules</h4>
+                          <button type="button" class="btn " (click)="closePopup()">  <img src="assets/images/cancel.svg" alt="arrow"/>  </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="modalheadingbox"><div *ngIf="!isShow"><a href="javascript:void(0);" (click) = toggleDisplay2()><h3 ><span class="main-chevron"><svg _ngcontent-yjq-c111="" width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-yjq-c111="" d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z" fill="#0D1758"></path></svg></span> MCC’s/Panels & Circuits </h3></a></div></div>
+                          <div class="bg-lightgrey p-20">
+                            <div class="schedulebx" *ngIf = "isShow">
+                              <h5>Schedules</h5>
+                              <ul class="listing_mod">
+                                <li><a href="javascript: void(0);" (click) = toggleDisplay()>MCCs Panels & Circuits <img _ngcontent-ecb-c111="" src="assets/images/expand_right.svg" alt="arrow"></a></li>
+                                <li><a href="javascript: void(0);" >Lighting <img _ngcontent-ecb-c111="" src="assets/images/expand_right.svg" alt="arrow"></a></li>
+                                <li><a href="javascript: void(0);" >HVAC <img _ngcontent-ecb-c111="" src="assets/images/expand_right.svg" alt="arrow"></a></li>
+                                <li><a href="javascript: void(0);" >Boiler & DHW <img _ngcontent-ecb-c111="" src="assets/images/expand_right.svg" alt="arrow"></a></li>
+                                <li><a href="javascript: void(0);" >Pumps & Motors <img _ngcontent-ecb-c111="" src="assets/images/expand_right.svg" alt="arrow"></a></li>
+                              </ul>
+                            </div>
+                            <div class="panelCircuit" *ngIf = "!isShow">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <h5 >MCC’s/Panels & Circuits</h5>
+                                  <div class="imgInline"><img src="assets/images/thumb_electrical-panel-open_2.png" alt="thumb_electrical-panel-open_2" class="img-fluid"/><img src="assets/images/thumb_MCC_Unit.png" alt="thumb_MCC_Unit" class="img-fluid"/></div>
+                                  <p>Generate a schedule report of your facilities MCC units, electrical panels and circuits.</p>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="imgbx"><img src="assets/images/doc-pageschedule.png" alt="arrow" class="img-fluid"/></div>
+                                  <a href="javascript: void(0);" (click)= downloadPanelScheduleReport() class="btn btn-primary">Generate Report</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/energy-report.png" alt="energy-report"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" (click)="openEnergyReportModal()">Energy Report <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+
+                  <div class="modal" id="energyReport" tabindex="-1" role="dialog" *ngIf="modal == 'energyReport'" style="display: block;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Energy Report</h4>
+                          <button type="button" class="btn " (click)="closePopup()">  <img src="assets/images/cancel.svg" alt="arrow"/>  </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="modalheadingbox"><div *ngIf="!isShow"><a href="javascript:void(0);" (click) = toggleDisplay2()><h3 ><span class="main-chevron"><svg _ngcontent-yjq-c111="" width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-yjq-c111="" d="M0.666748 7.5L7.91675 14.75L9.6205 13.0463L4.08633 7.5L9.6205 1.95375L7.91675 0.250003L0.666748 7.5Z" fill="#0D1758"></path></svg></span> MCC’s/Panels & Circuits </h3></a></div></div>
+                          <div class="bg-lightgrey energy-report-modal">
+
+
+                            <div class="energy-report-selection">
+                              <div class="ers-left">
+                                <h5>Generate an energy usage report with analysis</h5>
+
+
+                                <div class="report-selection-container">
+
+                                  <div class="range-selector-buttons">
+                                    <div class="range-selector-button">Day</div>
+                                    <div class="range-selector-button">Week</div>
+                                    <div class="range-selector-button selected">Month</div>
+                                  </div>
+
+                                  <div class="range-selector">
+                                    <div class="month-selector">
+
+                                      <div class="left-button" (click)="selectPreviousMonth()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" style="fill: white; transform: scale(0.6);"><path d="m8 18-8-8 8-8 1.417 1.417L2.833 10l6.584 6.583Z"/></svg>
+                                      </div>
+
+
+                                      <p class="selected-month prevent-select">{{energyReportSelectedMonth | date: 'LLLL YYYY'}}</p>
+
+
+                                      <div class="right-button" (click)="selectNextMonth()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" style="fill: white; transform: scale(0.6) rotate(180deg);"><path d="m8 18-8-8 8-8 1.417 1.417L2.833 10l6.584 6.583Z"/></svg>
+                                      </div>
+
+                                    </div>
+
+
+                                  </div>
+
+
+                                  <a href="javascript: void(0);" (click)= downloadEnergyReport() class="btn btn-primary generate-report-button" style="margin-top: 104px;">Generate Report</a>
+                                </div>
+
+
+                              </div>
+
+                              <div class="ers-right" style="width: 272px;">
+                                <img src="assets/images/energy-report2.png" alt="energy-report"/>
+
+
+                              </div>
+
+
+
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-radius5 p-3">
+                <div class="cardupper">
+                  <img src="assets/images/asset-health.png" alt="asset-health"/>
+                </div>
+                <div class="cardfoot border-top">
+                  <a href="javascript: void(0);" >Asset Health <img src="assets/images/expand_right.svg" alt="arrow"/></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

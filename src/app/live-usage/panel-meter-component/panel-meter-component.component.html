@@ -1,0 +1,968 @@
+<div class="modal panel-meter-modal" *ngIf="render_dialog" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-carry">
+                    <h4 class="modal-title">{{panel_name}} - {{this.meterName}}</h4>
+                    <button type="button" class="btn " (click)="closePopup()"> <img src="assets/images/cancel.svg"
+                            alt="arrow" /> </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="activeId" class="nav-tabs">
+                    <li [ngbNavItem]="1" class="panel-meter-menu-tabs quick-set-up-tab-txt"> <a ngbNavLink>Quick
+                            Set-up</a>
+                        <ng-template ngbNavContent>
+                            <div class="panel-meter-tab-cont quick-set-up-tab-data">
+                                <div class="panel-meter-tab-data-top-bar">
+                                    <div class="panel-meter-tab-data-top-bar-ls">
+                                        <p>Units Measured</p>
+                                    </div>
+                                    <div class="panel-meter-tab-data-top-bar-rs">
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input id="wattageRadio" checked type="radio" name="wattage name" />
+                                            <label for="wattage">Wattage (w)</label>
+                                        </div>
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input id="current-amperRadio" (click)="ampEdit();" type="radio"
+                                                name="current amper" />
+                                            <label for="current-amper">Current / Amps (a)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-meter-tab-radio-data">
+                                    <div class="panel-meter-tab-data-mid">
+                                        <div class="pnl-mtr-data-mid-ls">
+                                            <div class="pnl-mtr-data-mid-ls-tp">
+                                                <p> Voltage </p>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-ls-btm">
+                                                <div class="pnl-mtr-data-mid-ls-btm-col"
+                                                    *ngFor="let voltage of voltageSectionList; let i = index">
+                                                    <p class="pnl-mtr-data-mid-ls-btm-col-tp">{{voltage}}</p>
+                                                    <p class="pnl-mtr-data-mid-ls-btm-col-btn">V{{i+1}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pnl-mtr-data-mid-rs">
+                                            <div class="pnl-mtr-data-mid-rs-tp">
+                                                <p class="main-txt">Mains <span class="clamp-text">(clamp size)</span>
+                                                </p>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-rs-btm">
+
+                                                <div class="pnl-mtr-data-mid-rs-btm-col"
+                                                    *ngFor="let current of currentSectionList; let i = index">
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                        <div class="pnl-mtr-data-mid-rs-btm-col-tp-select">
+                                                            <select [ngStyle]="{'pointer-events':'none'}">
+                                                                <option value="0">{{current}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <p class="pnl-mtr-data-mid-rs-btm-col-btn">M{{i+1}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-meter-tab-data-bottom">
+                                        <div class="pnl-mtr-tab-data-bottom-cont quick-set-up-box">
+                                            <div class="pnl-mtr-tab-data-bottom-form">
+                                                <ul>
+                                                    <li class="add-meter">
+                                                        <label for="addMeter">Add Meter</label>
+                                                        <input type="color" id="addMeter" name="addMeter"
+                                                            value="#1FAB3D">
+                                                    </li>
+                                                    <li class="meter-name">
+                                                        <label for="lname">Meter Name</label>
+                                                        <input type="text" id="meter-name"
+                                                            value="{{panel_expansions.meter_name}}"
+                                                            [ngStyle]="{'border': metereditborderEnabled, 'pointer-events':metereditpointerEnabled}"
+                                                            name="meter-name">
+                                                    </li>
+                                                    <li class="number-of-phase">
+                                                        <p>Number of Phases:</p>
+                                                        <div class="number-of-phase-radio">
+                                                            <div *ngFor="let radioV of radioPhase; let i = index">
+
+                                                                <label for="numberOfPhase{{i+1}}">{{i+1}}</label>
+                                                                <input class="number-of-phase-radio-single"  [ngStyle]="{'pointer-events':phaseEnabled}"
+                                                                    (click)="radioEdit($event);" [checked]="radioV.value"
+                                                                    type="radio" id="numberOfPhase{{i+1}}"
+                                                                    >
+                                                            </div>
+
+
+                                                        </div>
+                                                    </li>
+                                                    <li class="voltage-type">
+                                                        <label>Voltage type:</label>
+                                                        <select [ngStyle]="{'pointer-events':'none'}">
+                                                            <option value="0">Wye 115V/200V or Delta 200V</option>
+                                                            <option value="1">Wye 115V/200V or Delta 200V</option>
+                                                        </select>
+                                                    </li>
+                                                    <li class="voltage-ref">
+                                                        <label>Voltage Refrence:</label>
+                                                        <div class="voltage-ref-selects">
+                                                            <select [ngStyle]="{'pointer-events':'none'}">
+                                                                <option value="0">V1</option>
+                                                                <option value="1">V2</option>
+                                                            </select>
+                                                            <select [ngStyle]="{'pointer-events':'none'}">
+                                                                <option value="0">V1</option>
+                                                                <option value="1">V2</option>
+                                                            </select>
+                                                            <select [ngStyle]="{'pointer-events':'none'}">
+                                                                <option value="0">V1</option>
+                                                                <option value="1">V2</option>
+                                                            </select>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-bottom">
+                                <div class="modal-bottom-cont">
+                                    <button class="modal-bottom-edit modal-bottom-btn " (click)="handleEdit();"
+                                        [ngStyle]="{'opacity': editDisabledOpacity, 'pointer-events':editDisabled}"
+                                        type="button">Edit</button>
+                                    <button class="modal-bottom-save modal-bottom-btn"
+                                        [ngStyle]="{'opacity': saveDisabledOpacity, 'pointer-events':saveDisabled}"
+                                        (click)="handleSave();" type="button">Save</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="2" (click)="meterTabName();" class="panel-meter-menu-tabs meter-data-tab-txt"> <a
+                            ngbNavLink>Meter Data</a>
+                        <ng-template ngbNavContent>
+                            <div class="panel-meter-tab-cont meter-data-tab-data">
+                                <div class="panel-meter-tab-data-top-bar">
+                                    <div class="panel-meter-tab-data-top-bar-ls">
+                                        <p>Units Measured</p>
+                                    </div>
+                                    <div class="panel-meter-tab-data-top-bar-rs">
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input id="wattage" type="radio" checked (click)="handlewattageToggle();"
+                                                name="wattage name" />
+                                            <label for="wattage">Wattage (w)</label>
+                                        </div>
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input id="current-amper" (click)="handlecurrentToggle();" type="radio"
+                                                name="current amper" />
+                                            <label for="current-amper">Current / Amps (a)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="wattageFlag">
+                                    <div class="panel-meter-tab-radio-data">
+                                        <div class="panel-meter-tab-data-mid">
+                                            <div class="pnl-mtr-data-mid-ls">
+                                                <div class="pnl-mtr-data-mid-ls-tp">
+                                                    <p> Voltage </p>
+                                                </div>
+                                                <div class="pnl-mtr-data-mid-ls-btm">
+                                                    <div class="pnl-mtr-data-mid-ls-btm-col"
+                                                        *ngFor="let voltage of voltageSectionList; let i = index">
+                                                        <p class="pnl-mtr-data-mid-ls-btm-col-tp">{{voltage}}</p>
+                                                        <p class="pnl-mtr-data-mid-ls-btm-col-btn">V{{i+1}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-rs">
+                                                <div class="pnl-mtr-data-mid-rs-tp">
+                                                    <p>Mains</p>
+                                                </div>
+                                                <div class="pnl-mtr-data-mid-rs-btm">
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col">
+                                                        <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                            <div class="pnl-mtr-data-mid-rs-btm-col-tp-txt">
+                                                                <p>{{wattageSectionTotal}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="pnl-mtr-data-mid-rs-btm-col-btn">Total</p>
+                                                    </div>
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col"
+                                                        *ngFor="let watt of wattSectionList; let i = index">
+                                                        <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                            <div class="pnl-mtr-data-mid-rs-btm-col-tp-txt">
+                                                                <p>{{watt}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="pnl-mtr-data-mid-rs-btm-col-btn">M{{i+1}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-meter-tab-data-bottom">
+                                            <div class="pnl-mtr-tab-data-bottom-top-cont radio-btn">
+                                                <div class="pnl-mtr-tab-data-bottom-tp-ls">
+                                                    <p>Expansions</p>
+                                                </div>
+                                                <div class="pnl-mtr-tab-data-bottom-tp-rs">
+                                                    <label>
+                                                        <input id="clickA" checked (click)="toggleA();" type="radio"
+                                                            name=""> A </label>
+                                                    <label>
+                                                        <input id="clickB" (click)="toggleB();" type="radio" name=""> B
+                                                    </label>
+                                                    <label>
+                                                        <input id="clickC" (click)="toggleC();" type="radio" name=""> C
+                                                    </label>
+                                                    <label>
+                                                        <input id="clickD" (click)="toggleD();" type="radio" name=""> D
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="pnl-mtr-tab-data-bottom-btm-cont">
+                                                <div class="pnl-mtr-tab-data-btm-btm-data">
+                                                    <div class="pnl-mtr-tab-data-btm-btm-data-header">
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Expansion
+                                                                <br>Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br> Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br> Name
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Watts</p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Expansion
+                                                                <br> Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br>Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br>Name
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Watts</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-data-btm-btm-data-table">
+                                                        <div class="pnl-mtr-tab-data-btm-btm-data-table-cont">
+                                                            <!-- here is the Loop Start -->
+                                                            <div *ngIf="userCheckA"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_A"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="{{expansion.voltage_reference}}"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.watts}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <!-- here is the Loop End -->
+                                                            <div *ngIf="userCheckB"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_B"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="{{expansion.voltage_reference}}"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.watts}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="userCheckC"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_C"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="{{expansion.voltage_reference}}"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.watts}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="userCheckD"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_D"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="{{expansion.voltage_reference}}"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.watts}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="currentFlag">
+                                    <div class="panel-meter-tab-radio-data">
+                                        <div class="panel-meter-tab-data-mid">
+                                            <div class="pnl-mtr-data-mid-ls">
+                                                <div class="pnl-mtr-data-mid-ls-tp">
+                                                    <p> Voltage </p>
+                                                </div>
+                                                <div class="pnl-mtr-data-mid-ls-btm">
+                                                    <div class="pnl-mtr-data-mid-ls-btm-col"
+                                                        *ngFor="let voltage of voltageSectionList; let i = index">
+                                                        <p class="pnl-mtr-data-mid-ls-btm-col-tp">{{voltage}}</p>
+                                                        <p class="pnl-mtr-data-mid-ls-btm-col-btn">V{{i+1}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-rs">
+                                                <div class="pnl-mtr-data-mid-rs-tp">
+                                                    <p>Mains</p>
+                                                </div>
+                                                <div class="pnl-mtr-data-mid-rs-btm">
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col">
+                                                        <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                            <div class="pnl-mtr-data-mid-rs-btm-col-tp-txt">
+                                                                <p>{{currentSectionTotal}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="pnl-mtr-data-mid-rs-btm-col-btn">Total</p>
+                                                    </div>
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col"
+                                                        *ngFor="let current of currentSectionList; let i = index">
+                                                        <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                            <div class="pnl-mtr-data-mid-rs-btm-col-tp-txt">
+                                                                <p>{{current}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <p class="pnl-mtr-data-mid-rs-btm-col-btn">M{{i+1}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-meter-tab-data-bottom">
+                                            <div class="pnl-mtr-tab-data-bottom-top-cont radio-btn">
+                                                <div class="pnl-mtr-tab-data-bottom-tp-ls">
+                                                    <p>Expansions</p>
+                                                </div>
+                                                <div class="pnl-mtr-tab-data-bottom-tp-rs">
+                                                    <label>
+                                                        <input id="clickA" checked (click)="toggleA();" type="radio"
+                                                            name=""> A </label>
+                                                    <label>
+                                                        <input id="clickB" (click)="toggleB();" type="radio" name=""> B
+                                                    </label>
+                                                    <label>
+                                                        <input id="clickC" (click)="toggleC();" type="radio" name=""> C
+                                                    </label>
+                                                    <label>
+                                                        <input id="clickD" (click)="toggleD();" type="radio" name=""> D
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="pnl-mtr-tab-data-bottom-btm-cont">
+                                                <div class="pnl-mtr-tab-data-btm-btm-data">
+                                                    <div class="pnl-mtr-tab-data-btm-btm-data-header">
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Expansion
+                                                                <br>Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br> Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br> Name
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Amps</p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Expansion
+                                                                <br> Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br>Number
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Circuit
+                                                                <br>Name
+                                                            </p>
+                                                        </div>
+                                                        <div class="pnl-mtr-tab-btm-header-col">
+                                                            <p>Amps</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-data-btm-btm-data-table">
+                                                        <div class="pnl-mtr-tab-data-btm-btm-data-table-cont">
+                                                            <!-- here is the Loop Start -->
+                                                            <div *ngIf="userCheckA"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_A"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="circuit-number-txt"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.amps}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <!-- here is the Loop End -->
+                                                            <div *ngIf="userCheckB"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_B"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="circuit-number-txt"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.amps}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="userCheckC"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_C"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="circuit-number-txt"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.amps}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="userCheckD"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                                <div *ngFor="let expansion of expansion_D"
+                                                                    class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                    <!-- here is the Loop Start -->
+                                                                    <div
+                                                                        class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.expansion_number}} </p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <input type="text"
+                                                                            id="{{expansion.expansion_number}}"
+                                                                            class="circuit-number-txt {{expansion.id}}"
+                                                                            (keydown)="editEnabled()"
+                                                                            (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                            name="circuit-number-txt"
+                                                                            value="{{expansion.circuit_number}}"
+                                                                            [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                        <div class="circuit-color"
+                                                                            [ngStyle]="{'background-color': expansion.colour}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p>{{expansion.circuit_name}}</p>
+                                                                    </div>
+                                                                    <div
+                                                                        class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                        <p> {{expansion.amps}} </p>
+                                                                    </div>
+                                                                    <!-- here is the Loop End -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-bottom">
+                                <div class="modal-bottom-cont">
+                                    <button class="modal-bottom-edit modal-bottom-btn " (click)="handleEdit();"
+                                        [ngStyle]="{'opacity': editDisabledOpacity, 'pointer-events':editDisabled}"
+                                        type="button">Edit</button>
+                                    <button class="modal-bottom-save modal-bottom-btn"
+                                        [ngStyle]="{'opacity': saveDisabledOpacity, 'pointer-events':saveDisabled}"
+                                        (click)="handleSave();" type="button">Save</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                    <li [ngbNavItem]="3" (click)="meterTunningTab();"
+                        class="panel-meter-menu-tabs fine-tunning-data-tab-txt"> <a ngbNavLink>Fine-Tunning</a>
+                        <ng-template (click)="meterclick()" ngbNavContent>
+                            <div class="panel-meter-tab-cont fine-tunning-data-tab-data">
+                                <div class="panel-meter-tab-data-top-bar">
+                                    <div class="panel-meter-tab-data-top-bar-ls">
+                                        <p>Units Measured</p>
+                                    </div>
+                                    <div class="panel-meter-tab-data-top-bar-rs">
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input disabled id="wattage" type="radio" name="wattage name" />
+                                            <label for="wattage">Sensor Set-up</label>
+                                        </div>
+                                        <div class="panel-meter-tab-data-top-bar-rs-radio">
+                                            <input checked id="current-amper" type="radio" name="current amper" />
+                                            <label for="current-amper">Voltage Set-up</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-meter-tab-radio-data">
+                                    <div class="panel-meter-tab-data-mid">
+                                        <div class="pnl-mtr-data-mid-ls">
+                                            <div class="pnl-mtr-data-mid-ls-tp">
+                                                <p> Voltage </p>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-ls-btm">
+                                                <div class="pnl-mtr-data-mid-ls-btm-col"
+                                                    *ngFor="let voltage of voltageSectionList; let i = index">
+                                                    <p class="pnl-mtr-data-mid-ls-btm-col-tp">{{voltage}}</p>
+                                                    <p class="pnl-mtr-data-mid-ls-btm-col-btn">V{{i+1}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pnl-mtr-data-mid-rs">
+                                            <div class="pnl-mtr-data-mid-rs-tp">
+                                                <p class="main-txt">Mains</p>
+                                            </div>
+                                            <div class="pnl-mtr-data-mid-rs-btm">
+                                                <div class="pnl-mtr-data-mid-rs-btm-col"
+                                                *ngFor="let current of currentSectionList; let i = index">
+                                                <div class="pnl-mtr-data-mid-rs-btm-col-tp">
+                                                    <div class="pnl-mtr-data-mid-rs-btm-col-tp-select">
+                                                        <select [ngStyle]="{'pointer-events':'none'}">
+                                                            <option value="0">{{current}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <p class="pnl-mtr-data-mid-rs-btm-col-btn">M{{i+1}}</p>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-meter-tab-data-bottom">
+                                        <div class="pnl-mtr-tab-data-bottom-top-cont radio-btn">
+                                            <div class="pnl-mtr-tab-data-bottom-tp-ls">
+                                                <p>Expansions</p>
+                                            </div>
+                                            <div class="pnl-mtr-tab-data-bottom-tp-rs">
+                                                <label>
+                                                    <input id="fineclickA" checked (click)="finetoggleA();" type="radio"
+                                                        name=""> A </label>
+                                                <label>
+                                                    <input id="fineclickB" (click)="finetoggleB();" type="radio"
+                                                        name=""> B </label>
+                                                <label>
+                                                    <input id="fineclickC" (click)="finetoggleC();" type="radio"
+                                                        name=""> C </label>
+                                                <label>
+                                                    <input id="fineclickD" (click)="finetoggleD();" type="radio"
+                                                        name=""> D </label>
+                                            </div>
+                                        </div>
+                                        <div class="pnl-mtr-tab-data-bottom-btm-cont">
+                                            <div class="pnl-mtr-tab-data-btm-btm-data">
+                                                <div class="pnl-mtr-tab-data-btm-btm-data-header">
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Expansion
+                                                            <br>Number
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Circuit
+                                                            <br> Number
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Circuit
+                                                            <br> Name
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Amps</p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Expansion
+                                                            <br> Number
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Circuit
+                                                            <br>Number
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Circuit
+                                                            <br>Name
+                                                        </p>
+                                                    </div>
+                                                    <div class="pnl-mtr-tab-btm-header-col">
+                                                        <p>Amps</p>
+                                                    </div>
+                                                </div>
+                                                <div class="pnl-mtr-tab-data-btm-btm-data-table">
+                                                    <div class="pnl-mtr-tab-data-btm-btm-data-table-cont">
+                                                        <!-- here is the Loop Start -->
+                                                        <div *ngIf="fineuserCheckA"
+                                                            class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                            <div *ngFor="let expansion of expansion_A"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                <div
+                                                                    class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p> {{expansion.expansion_number}} </p>
+                                                                </div>
+                                                                <div id="sectionArender"
+                                                                    class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <input type="text"
+                                                                        id="{{expansion.expansion_number}}"
+                                                                        class="circuit-number-txt {{expansion.id}}"
+                                                                        (keydown)="editEnabled()"
+                                                                        (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                        name="{{expansion.voltage_reference}}"
+                                                                        value="{{expansion.circuit_number}}"
+                                                                        [ngStyle]="{border: editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                    <div class="circuit-color"
+                                                                        [ngStyle]="{'background-color': expansion.colour}">
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p>{{expansion.circuit_name}}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <select class="selectdropDownValue"
+                                                                        name="{{expansion.expansion_number}}"
+                                                                        (ngModelChange)="selectRowChange($event, expansion.expansion_number,expansion.id)"
+                                                                        [ngStyle]="{'pointer-events':dropdownDisabled}"
+                                                                        [(ngModel)]='expansion.voltage_reference'>
+                                                                        <option value="V1">V1</option>
+                                                                        <option value="V2">V2</option>
+                                                                        <option value="V3">V3</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="fineuserCheckB"
+                                                            class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                            <div *ngFor="let expansion of expansion_B"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                <div
+                                                                    class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p> {{expansion.expansion_number}} </p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <input type="text"
+                                                                        id="{{expansion.expansion_number}}"
+                                                                        class="circuit-number-txt {{expansion.id}}"
+                                                                        (keydown)="editEnabled()"
+                                                                        (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                        name="{{expansion.voltage_reference}}"
+                                                                        value="{{expansion.circuit_number}}"
+                                                                        [ngStyle]="{'border': editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                    <div class="circuit-color"
+                                                                        [ngStyle]="{'background-color': expansion.colour}">
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p>{{expansion.circuit_name}}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <select class="selectdropDownValue"
+                                                                        (ngModelChange)="selectRowChange($event, expansion.expansion_number,expansion.id)"
+                                                                        [(ngModel)]='expansion.voltage_reference'
+                                                                        [ngStyle]="{'pointer-events':dropdownDisabled}">
+                                                                        <option value="V1">V1</option>
+                                                                        <option value="V2">V2</option>
+                                                                        <option value="V3">V3</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="fineuserCheckC"
+                                                            class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                            <div *ngFor="let expansion of expansion_C"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                <div
+                                                                    class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p> {{expansion.expansion_number}} </p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <input type="text"
+                                                                        id="{{expansion.expansion_number}}"
+                                                                        class="circuit-number-txt {{expansion.id}}"
+                                                                        (keydown)="editEnabled()"
+                                                                        (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                        name="{{expansion.voltage_reference}}"
+                                                                        value="{{expansion.circuit_number}}"
+                                                                        [ngStyle]="{'border': editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                    <div class="circuit-color"
+                                                                        [ngStyle]="{'background-color': expansion.colour}">
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p>{{expansion.circuit_name}}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <select class="selectdropDownValue"
+                                                                        [(ngModel)]='expansion.voltage_reference'
+                                                                        (ngModelChange)="selectRowChange($event, expansion.expansion_number,expansion.id)"
+                                                                        [ngStyle]="{'pointer-events':dropdownDisabled}">
+                                                                        <option value="V1">V1</option>
+                                                                        <option value="V2">V2</option>
+                                                                        <option value="V3">V3</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="fineuserCheckD"
+                                                            class="pnl-mtr-tab-data-btm-btm-data-table-row-carry">
+                                                            <div *ngFor="let expansion of expansion_D"
+                                                                class="pnl-mtr-tab-data-btm-btm-data-table-row">
+                                                                <div
+                                                                    class="table-expansion-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p> {{expansion.expansion_number}} </p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-number pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <input type="text"
+                                                                        id="{{expansion.expansion_number}}"
+                                                                        class="circuit-number-txt {{expansion.id}}"
+                                                                        (keydown)="editEnabled()"
+                                                                        (keyup.enter)="updateCircuit(expansion.expansion_number, expansion.id, expansion.voltage_reference)"
+                                                                        name="circuit-number-txt"
+                                                                        value="{{expansion.circuit_number}}"
+                                                                        [ngStyle]="{'border': editborderEnabled, 'pointer-events':editpointerEnabled}">
+                                                                    <div class="circuit-color"
+                                                                        [ngStyle]="{'background-color': expansion.colour}">
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="table-circuit-name pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <p>{{expansion.circuit_name}}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="table-watts pnl-mtr-tab-data-btm-btm-data-table-col">
+                                                                    <select class="selectdropDownValue"
+                                                                        [(ngModel)]='expansion.voltage_reference'
+                                                                        (ngModelChange)="selectRowChange($event, expansion.expansion_number,expansion.id)"
+                                                                        [ngStyle]="{'pointer-events':dropdownDisabled}">
+                                                                        <option value="V1">V1</option>
+                                                                        <option value="V2">V2</option>
+                                                                        <option value="V3">V3</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- here is the Loop End -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-bottom">
+                                <div class="modal-bottom-cont">
+                                    <button class="modal-bottom-edit modal-bottom-btn " (click)="quickEdit();"
+                                        type="button">Quick Edit</button>
+                                    <button class="modal-bottom-edit modal-bottom-btn" (click)="handleEdit();"
+                                        [ngStyle]="{'opacity': editDisabledOpacity, 'pointer-events':editDisabled}"
+                                        type="button">Edit</button>
+                                    <button class="modal-bottom-save modal-bottom-btn"
+                                        [ngStyle]="{'opacity': saveDisabledOpacity, 'pointer-events':saveDisabled}"
+                                        (click)="handleSave();" type="button">Save</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+                <div [ngbNavOutlet]="nav"></div>
+            </div>
+        </div>
+    </div>
+</div>
